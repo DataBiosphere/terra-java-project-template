@@ -1,0 +1,33 @@
+{
+  "name": "catalog-alpha",
+  "description": "Catalog Alpha Testing Environment",
+
+  "catalogUri": "https://catalog.dsde-alpha.broadinstitute.org/",
+  "datarepoUri": "https://data.alpha.envs-terra.bio/",
+  "rawlsUri": "https://rawls.dsde-alpha.broadinstitute.org/",
+
+  "deploymentScript": {},
+  "testRunnerServiceAccountFile": "testrunner-perf.json",
+
+  "skipDeployment": true,
+  "skipKubernetes": true,
+
+  "versionScripts": [
+    {
+      "name": "ReadFromTerraHelmfileRepo",
+      "description": "Version from https://github.com/broadinstitute/terra-helmfile",
+      "parametersMap": {
+        "app-name": "catalog",
+        "base-file-path": "src/main/resources/rendered/dev.yaml",
+        "override-file-path": "src/main/resources/rendered/alpha.yaml"
+      }
+    },
+    {
+      "name": "ReadFromGitCommitLog",
+      "description": "Hash of git branch from Git Commit Log",
+      "parametersMap": {
+        "git-dir": "../.git"
+      }
+    }
+  ]
+}

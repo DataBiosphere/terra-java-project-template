@@ -1,0 +1,13 @@
+{
+  "name": "catalog-local",
+  "description": "Catalog Local env.",
+
+  "catalogUri": "http://localhost:8080",
+  "datarepoUri": "https://jade.datarepo-dev.broadinstitute.org/",
+  "rawlsUri": "https://rawls.dsde-dev.broadinstitute.org/",
+
+  "testRunnerServiceAccountFile": "testrunner-perf.json",
+
+  "skipDeployment": true,
+  "skipKubernetes": true
+}

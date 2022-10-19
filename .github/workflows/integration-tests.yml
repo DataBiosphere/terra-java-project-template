@@ -1,0 +1,174 @@
+name: Integration Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'environment to run test in'
+        required: true
+        options:
+          - staging
+          - alpha
+          - dev
+        default: 'dev'
+
+env:
+  TEST_ENV: ${{ github.event.inputs.environment }}
+  TEST_DEFAULT: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Gradle build service
+        run: ./gradlew --build-cache :service:build -x test
+
+  jib:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Construct docker image name and tag
+        id: image-name
+        run: |
+          GITHUB_REPO=$(basename ${{ github.repository }})
+          GIT_SHORT_HASH=$(git rev-parse --short HEAD)
+          echo "name=${GITHUB_REPO}:${GIT_SHORT_HASH}" >> $GITHUB_OUTPUT
+
+      - name: Build image locally with jib
+        run: |
+          ./gradlew --build-cache :service:jibDockerBuild \
+            --image=${{ steps.image-name.outputs.name }} \
+            -Djib.console=plain
+
+  dispatch-trivy:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fire off Trivy action
+        uses: broadinstitute/workflow-dispatch@v1
+        with:
+          workflow: Trivy
+          token: ${{ secrets.BROADBOT_TOKEN }}
+
+  test-env:
+    runs-on: ubuntu-latest
+    outputs:
+      test-env: ${{ steps.test-env.outputs.test-env }}
+
+    steps:
+      - name: Set default test env
+        id: test-env
+        run: |
+          echo "test-env=${{ env.TEST_ENV || env.TEST_DEFAULT }}" >> $GITHUB_OUTPUT
+
+  test-runner:
+    needs: [ build, test-env ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get the helm chart versions for the test env
+        run: |
+          curl -H 'Authorization: token ${{ secrets.BROADBOT_TOKEN }}' \
+            -H 'Accept: application/vnd.github.v3.raw' \
+            -L https://api.github.com/repos/broadinstitute/terra-helmfile/contents/versions/app/dev.yaml \
+            --create-dirs -o "integration/src/main/resources/rendered/dev.yaml"
+          curl -H 'Authorization: token ${{ secrets.BROADBOT_TOKEN }}' \
+            -H 'Accept: application/vnd.github.v3.raw' \
+            -L https://api.github.com/repos/broadinstitute/terra-helmfile/contents/environments/live/${{ needs.test-env.outputs.test-env }}.yaml \
+            --create-dirs -o "integration/src/main/resources/rendered/${{ needs.test-env.outputs.test-env }}.yaml"
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Render GitHub Secrets
+        run: |
+          echo "${{ secrets.DEV_FIRECLOUD_ACCOUNT_B64 }}" | base64 -d > "integration/src/main/resources/rendered/user-delegated-sa.json"
+          echo "${{ secrets.PERF_TESTRUNNER_ACCOUNT_B64 }}" | base64 -d > "integration/src/main/resources/rendered/testrunner-perf.json"
+
+      - name: Run integration test suite
+        run: |
+          ./gradlew --build-cache runTest --args="suites/${{ needs.test-env.outputs.test-env }}/FullIntegration.json build/reports"
+
+      - name: Upload Test Reports for QA
+        if: always()
+        run: |
+          ./gradlew --build-cache uploadResults --args="CompressDirectoryToTerraKernelK8S.json build/reports"
+
+      - name: Upload Test Reports for GitHub
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: Test Reports
+          path: integration/build/reports
+
+  notify-de-slack:
+    needs: [ build, jib, test-env, test-runner ]
+    runs-on: ubuntu-latest
+    if: failure()
+
+    steps:
+      - name: "Notify #jade-data-explorer Slack on failure"
+        uses: broadinstitute/action-slack@v3.8.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          STATUS: failure
+        with:
+          channel: '#jade-data-explorer'
+          status: ${{ env.STATUS }}
+          fields: job,ref
+          text: >
+            ${{ format('Catalog test *{0}* in *{1}* {2}',
+            env.STATUS, needs.test-env.outputs.test-env,
+            env.STATUS == 'success' && ':check_green:' || ':sadpanda:') }}
+          username: 'Data Explorer Tests'
+
+  notify-qa-slack:
+    needs: [ build, jib, test-env, test-runner ]
+    runs-on: ubuntu-latest
+    if: always() && needs.test-env.outputs.test-env != 'dev'
+
+    steps:
+      - name: "Always notify #dsde-qa Slack"
+        uses: broadinstitute/action-slack@v3.8.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          STATUS: >-
+            ${{ needs.build.result == 'success'
+            && needs.jib.result == 'success'
+            && needs.test-runner.result == 'success'
+            && 'success' || 'failure' }}
+        with:
+          channel: '#dsde-qa'
+          status: ${{ env.STATUS }}
+          fields: job,ref
+          text: >
+            ${{ format('Catalog test *{0}* in *{1}* {2}',
+            env.STATUS, needs.test-env.outputs.test-env,
+            env.STATUS == 'success' && ':check_green:' || ':sadpanda:') }}
+          username: 'Data Explorer Tests'

@@ -1,0 +1,11 @@
+{
+  "name": "FullIntegration",
+  "description": "All integration tests",
+  "serverSpecificationFile": "catalog-local.json",
+  "testConfigurationFiles": [
+    "integration/GetStatus.json",
+    "integration/GetVersion.json",
+    "integration/DatasetPermissionOperations.json",
+    "integration/DatasetOperations.json"
+  ]
+}

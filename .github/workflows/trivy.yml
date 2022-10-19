@@ -1,0 +1,51 @@
+name: Trivy
+on: workflow_dispatch
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Build all projects without running tests
+        run: ./gradlew --build-cache build -x test -x spotlessCheck
+
+      - name: Construct docker image name and tag
+        id: image-name
+        run: |
+          echo "name=trivy-local-testing-image" >> $GITHUB_OUTPUT
+
+      - name: Build image locally with jib
+        run: |
+          ./gradlew --build-cache :service:jibDockerBuild \
+            --image=${{ steps.image-name.outputs.name }} \
+            -Djib.console=plain
+
+      - name: Run Trivy vulnerability scanner
+        uses: broadinstitute/dsp-appsec-trivy-action@v1
+        with:
+          image: ${{ steps.image-name.outputs.name }}
+
+  notify-slack:
+    needs: [ trivy ]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Notify slack on failure
+        uses: broadinstitute/action-slack@v3.8.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          channel: '#jade-data-explorer'
+          status: failure
+          author_name: Trivy action
+          fields: workflow,message
+          text: 'Trivy scan failure :sadpanda:'
+          username: 'Data Explorer GitHub Action'

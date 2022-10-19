@@ -1,0 +1,13 @@
+{
+  "name": "catalog-dev",
+  "description": "Catalog Dev environment",
+
+  "catalogUri": "https://catalog.dsde-dev.broadinstitute.org",
+  "datarepoUri": "https://jade.datarepo-dev.broadinstitute.org/",
+  "rawlsUri": "https://rawls.dsde-dev.broadinstitute.org/",
+
+  "testRunnerServiceAccountFile": "testrunner-perf.json",
+
+  "skipDeployment": true,
+  "skipKubernetes": true
+}

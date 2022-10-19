@@ -1,0 +1,71 @@
+# All env variables that are used in one place
+# This is for deployment-specific values, which may be managed by other teams
+env:
+  db:
+    host: jdbc:postgresql://${DATABASE_HOSTNAME:127.0.0.1}:5432
+    init: ${INIT_DB:false}
+    catalog:
+      name: ${DATABASE_NAME:catalog_db}
+      pass: ${DATABASE_USER_PASSWORD:dbpwd}
+      user: ${DATABASE_USER:dbuser}
+  tracing:
+    exportEnabled: ${CLOUD_TRACE_ENABLED:false}
+    samplingRate: ${SAMPLING_PROBABILITY:0}
+  sam:
+    basePath: ${SAM_ADDRESS:https://sam.dsde-dev.broadinstitute.org}
+
+# Below here is non-deployment-specific
+
+# When the target is 'local' the write-config.sh script will generate this properties file. It
+# contains the configuration of the BPM test application. We can use that application in our
+# integration testing to make sure the application code paths are working. However, we do not
+# want it to appear in production environments.
+spring.config.import: optional:file:../config/local-properties.yml
+
+logging.pattern.level: '%X{requestId} %5p'
+
+server:
+  compression:
+    enabled: true
+    mimeTypes: text/css,application/javascript
+  port: 8080
+
+spring:
+  application.name: catalog
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          maxAge: 0
+          mustRevalidate: true
+        useLastModified: false
+      staticLocations: classpath:/api/
+
+catalog:
+  ingress:
+    # Default value that's overridden by Helm.
+    domainName: localhost:8080
+
+  status-check:
+    enabled: true
+    pollingIntervalSeconds: 60
+    startupWaitSeconds: 5
+    stalenessThresholdSeconds: 125
+
+  catalog-database:
+    initializeOnStart: ${env.db.init}
+    password: ${env.db.catalog.pass}
+    upgradeOnStart: true
+    uri: ${env.db.host}/${env.db.catalog.name}
+    username: ${env.db.catalog.user}
+
+  sam:
+    basePath: ${env.sam.basePath}
+
+terra.common:
+  kubernetes:
+    inKubernetes: false
+
+  tracing:
+    stackdriverExportEnabled: ${env.tracing.exportEnabled}
+    samplingRate: ${env.tracing.samplingRate}

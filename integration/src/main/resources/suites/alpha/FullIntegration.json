@@ -1,0 +1,11 @@
+{
+  "name": "FullIntegration",
+  "description": "All alpha tests",
+  "serverSpecificationFile": "catalog-alpha.json",
+  "testConfigurationFiles": [
+    "integration/GetStatus.json",
+    "integration/GetVersion.json",
+    "integration/DatasetPermissionOperations.json",
+    "integration/DatasetOperations.json"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "catalog-staging",
+  "description": "Catalog Staging Testing Environment",
+
+  "catalogUri": "https://catalog.dsde-staging.broadinstitute.org/",
+  "datarepoUri": "https://data.staging.envs-terra.bio/",
+  "rawlsUri": "https://rawls.dsde-staging.broadinstitute.org/",
+
+  "deploymentScript": {},
+  "testRunnerServiceAccountFile": "testrunner-perf.json",
+
+  "skipDeployment": true,
+  "skipKubernetes": true,
+
+  "versionScripts": [
+    {
+      "name": "ReadFromTerraHelmfileRepo",
+      "description": "Version from https://github.com/broadinstitute/terra-helmfile",
+      "parametersMap": {
+        "app-name": "catalog",
+        "base-file-path": "src/main/resources/rendered/dev.yaml",
+        "override-file-path": "src/main/resources/rendered/staging.yaml"
+      }
+    },
+    {
+      "name": "ReadFromGitCommitLog",
+      "description": "Hash of git branch from Git Commit Log",
+      "parametersMap": {
+        "git-dir": "../.git"
+      }
+    }
+  ]
+}
