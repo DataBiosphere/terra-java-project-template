@@ -4,20 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import bio.terra.javatemplate.BaseSpringBootTest;
 import org.broadinstitute.dsde.workbench.client.sam.ApiException;
 import org.broadinstitute.dsde.workbench.client.sam.api.StatusApi;
 import org.broadinstitute.dsde.workbench.client.sam.model.SystemStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ExtendWith(MockitoExtension.class)
-class SamServiceTest {
+class SamServiceTest extends BaseSpringBootTest {
 
-  @Mock private SamClient samClient;
-  @Mock private StatusApi statusApi;
+  @MockBean private SamClient samClient;
+  @MockBean private StatusApi statusApi;
 
   @Autowired private SamService samService;
 
