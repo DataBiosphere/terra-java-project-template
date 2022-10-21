@@ -4,16 +4,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import bio.terra.catalog.api.PublicApi;
+import bio.terra.javatemplate.api.PublicApi;
 import bio.terra.testrunner.runner.TestScript;
 import bio.terra.testrunner.runner.config.TestUserSpecification;
 import com.google.api.client.http.HttpStatusCodes;
-import scripts.client.CatalogClient;
+import scripts.client.JavatemplateClient;
 
 public class GetVersion extends TestScript {
   @Override
   public void userJourney(TestUserSpecification testUser) throws Exception {
-    CatalogClient client = new CatalogClient(server);
+    JavatemplateClient client = new JavatemplateClient(server);
     var publicApi = new PublicApi(client);
 
     var versionProperties = publicApi.getVersion();

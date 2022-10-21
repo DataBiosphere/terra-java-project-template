@@ -2,12 +2,11 @@
 # This is for deployment-specific values, which may be managed by other teams
 env:
   db:
-    host: jdbc:postgresql://${DATABASE_HOSTNAME:127.0.0.1}:5432
+    host: ${DATABASE_HOSTNAME:127.0.0.1}:5432
     init: ${INIT_DB:false}
-    catalog:
-      name: ${DATABASE_NAME:catalog_db}
-      pass: ${DATABASE_USER_PASSWORD:dbpwd}
-      user: ${DATABASE_USER:dbuser}
+    name: ${DATABASE_NAME:javatemplate_db}
+    password: ${DATABASE_USER_PASSWORD:dbpwd}
+    user: ${DATABASE_USER:dbuser}
   tracing:
     exportEnabled: ${CLOUD_TRACE_ENABLED:false}
     samplingRate: ${SAMPLING_PROBABILITY:0}
@@ -20,7 +19,7 @@ env:
 # contains the configuration of the BPM test application. We can use that application in our
 # integration testing to make sure the application code paths are working. However, we do not
 # want it to appear in production environments.
-spring.config.import: optional:file:../config/local-properties.yml
+spring.config.import: optional:file:../config/local-properties.yml;classpath:git.properties
 
 logging.pattern.level: '%X{requestId} %5p'
 
@@ -31,7 +30,19 @@ server:
   port: 8080
 
 spring:
-  application.name: catalog
+  # application name and version are used to populate the logging serviceContext
+  # https://github.com/DataBiosphere/terra-common-lib/blob/480ab3daae282ddff0fef8dc329494a4422e32f1/src/main/java/bio/terra/common/logging/GoogleJsonLayout.java#L118
+  application.name: javatemplate
+  application.version: ${javatemplate.version.gitHash:unknown}
+
+  datasource:
+    hikari:
+      connection-timeout: 5000
+      maximum-pool-size: 8 # cpu count * 2 https://kwahome.medium.com/database-connections-less-is-more-86c406b6fad
+    password: ${env.db.password}
+    url: jdbc:postgresql://${env.db.host}/${env.db.name}
+    username: ${env.db.user}
+
   web:
     resources:
       cache:
@@ -41,7 +52,7 @@ spring:
         useLastModified: false
       staticLocations: classpath:/api/
 
-catalog:
+javatemplate:
   ingress:
     # Default value that's overridden by Helm.
     domainName: localhost:8080
@@ -51,13 +62,6 @@ catalog:
     pollingIntervalSeconds: 60
     startupWaitSeconds: 5
     stalenessThresholdSeconds: 125
-
-  catalog-database:
-    initializeOnStart: ${env.db.init}
-    password: ${env.db.catalog.pass}
-    upgradeOnStart: true
-    uri: ${env.db.host}/${env.db.catalog.name}
-    username: ${env.db.catalog.user}
 
   sam:
     basePath: ${env.sam.basePath}

@@ -56,17 +56,17 @@ jobs:
           token: ${{ secrets.BROADBOT_TOKEN }}
           repository: broadinstitute/terra-helmfile
           event-type: update-service
-          client-payload: '{"service": "catalog", "version": "${{ steps.tag.outputs.tag }}", "dev_only": false}'
+          client-payload: '{"service": "javatemplate", "version": "${{ steps.tag.outputs.tag }}", "dev_only": false}'
 
-      - name: Notify slack on failure
-        uses: broadinstitute/action-slack@v3.8.0
-        if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          channel: '#jade-data-explorer'
-          status: failure
-          author_name: Publish to dev
-          fields: job
-          text: 'Publish failed :sadpanda:'
-          username: 'Data Explorer GitHub Action'
+#      - name: Notify slack on failure
+#        uses: broadinstitute/action-slack@v3.8.0
+#        if: failure()
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#        with:
+#          channel: '#jade-data-explorer'
+#          status: failure
+#          author_name: Publish to dev
+#          fields: job
+#          text: 'Publish failed :sadpanda:'
+#          username: 'Terra Java Project Template GitHub Action'

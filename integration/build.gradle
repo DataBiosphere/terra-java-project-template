@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'bio.terra.catalog.java-application-conventions'
+    id 'bio.terra.java-application-conventions'
     id 'io.spring.dependency-management'
     id 'bio.terra.test-runner-plugin'
 }
