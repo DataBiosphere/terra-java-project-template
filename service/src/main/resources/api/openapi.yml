@@ -36,7 +36,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 # DOC TODO: api versioning
-  /api/example/v1/:
+  /api/example/v1/message:
     get:
       summary: Gets your message
       tags: [ example ]
@@ -65,6 +65,36 @@ paths:
       responses:
         '204':
           description: Message saved
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/example/v1/{resourceType}/{resourceId}/{action}:
+    get:
+      summary: Checks sam access
+      tags: [ example ]
+      operationId: getAction
+      parameters:
+        - name: resourceType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: action
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: action access
+          content:
+            application/json:
+              schema:
+                type: boolean
         '500':
           $ref: '#/components/responses/ServerError'
 
