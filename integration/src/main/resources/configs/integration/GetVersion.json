@@ -1,7 +1,7 @@
 {
   "name": "GetVersion",
   "description": "Check the version endpoint once. No authentication required.",
-  "serverSpecificationFile": "catalog-local.json",
+  "serverSpecificationFile": "local.json",
   "kubernetes": {},
   "application": {},
   "testScripts": [
