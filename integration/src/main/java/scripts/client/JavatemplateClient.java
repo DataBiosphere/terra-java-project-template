@@ -30,6 +30,9 @@ public class JavatemplateClient extends ApiClient {
    */
   public JavatemplateClient(ServerSpecification server, TestUserSpecification testUser)
       throws IOException {
+    // note that this uses server.catalogUri. Typically a uri for a new service needs to be added to
+    // https://github.com/DataBiosphere/terra-test-runner/blob/main/src/main/java/bio/terra/testrunner/runner/config/ServerSpecification.java
+    // but for this template we will stick with catalog
     setBasePath(Objects.requireNonNull(server.catalogUri, "Catalog URI required"));
 
     if (testUser != null) {
