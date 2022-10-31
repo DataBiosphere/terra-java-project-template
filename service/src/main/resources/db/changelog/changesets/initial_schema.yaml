@@ -1,5 +1,4 @@
 databaseChangeLog:
-  # DOC TODO: keep each DDL statement in its own change set
   - changeSet:
       id: "not_so_interesting"
       author: doge

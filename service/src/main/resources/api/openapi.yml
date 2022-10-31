@@ -35,7 +35,8 @@ paths:
           description: "Version not configured"
         '500':
           $ref: '#/components/responses/ServerError'
-# DOC TODO: api versioning
+
+  # README /docs/api_versioning.md
   /api/example/v1/message:
     get:
       summary: Gets your message

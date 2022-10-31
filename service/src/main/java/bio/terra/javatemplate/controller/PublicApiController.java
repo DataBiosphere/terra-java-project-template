@@ -5,8 +5,6 @@ import bio.terra.javatemplate.config.VersionConfiguration;
 import bio.terra.javatemplate.model.SystemStatus;
 import bio.terra.javatemplate.model.VersionProperties;
 import bio.terra.javatemplate.service.StatusService;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
