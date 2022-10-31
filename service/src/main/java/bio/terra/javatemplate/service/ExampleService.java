@@ -15,7 +15,7 @@ public class ExampleService {
     this.exampleDao = exampleDao;
   }
 
-  // DOC TODO: serializable transactions and transaction barrier location
+  // README docs/transactions.md
   @WriteTransaction
   public void saveExample(Example example) {
     exampleDao.upsertExample(example);

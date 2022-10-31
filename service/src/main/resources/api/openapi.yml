@@ -35,7 +35,8 @@ paths:
           description: "Version not configured"
         '500':
           $ref: '#/components/responses/ServerError'
-# DOC TODO: api versioning
+
+  # README /docs/api_versioning.md
   /api/example/v1/message:
     get:
       summary: Gets your message
@@ -175,19 +176,9 @@ components:
           type: string
 
   securitySchemes:
-    authorization:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://accounts.google.com/o/oauth2/auth
-          scopes:
-            openid: open id authorization
-            email: email authorization
-            profile: profile authorization
     bearerAuth:
       type: http
       scheme: bearer
 
 security:
-  - authorization: [ openid, email, profile ]
   - bearerAuth: [ ]
