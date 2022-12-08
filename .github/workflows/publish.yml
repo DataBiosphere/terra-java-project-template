@@ -29,11 +29,15 @@ jobs:
           ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
           ARTIFACTORY_REPO_KEY: "libs-release-local"
 
-      - name: Auth to GCR
-        uses: google-github-actions/setup-gcloud@v0
+      - name: Auth to Google
+        uses: google-github-actions/auth@v1
         with:
-          service_account_email: ${{ secrets.GCR_PUBLISH_EMAIL }}
-          service_account_key: ${{ secrets.GCR_PUBLISH_KEY_B64 }}
+          workload_identity_provider: projects/1038484894585/locations/global/workloadIdentityPools/github-wi-pool/providers/github-wi-provider
+          service_account: gcr-publish@broad-dsp-gcr-public.iam.gserviceaccount.com
+		  
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v1
+		
       - name: Explicitly auth Docker for GCR
         run: gcloud auth configure-docker --quiet
 
