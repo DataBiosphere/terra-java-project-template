@@ -76,14 +76,14 @@ jobs:
   #
   # Hey! You'll probably want to uncomment below this point: it deploys newly published versions to dev!
   #
-  # You'll need to create a new chart entry in Beehive first, at broad.io/beehive/charts/new (chart names
-  # can't be changed, so be sure beforehand). Replace 'javatemplate' below with whatever name you choose.
+  # You'll need to create a new chart entry in Beehive first, at https://broad.io/beehive/charts/new (chart 
+  # names can't be changed, so be sure beforehand). Replace 'javatemplate' below with whatever name you choose.
   #
   # You'll also need to add some access to your new repo to allow it to run these steps. We have docs on the
   # whole process here: https://docs.google.com/document/d/1lkUkN2KOpHKWufaqw_RIE7EN3vN4G2xMnYBU83gi8VA/edit#heading=h.ipfs1speial
   #
-  # Lastly, the deployment part won't work until your app has an actual chart and is deployed in dev. We
-  # can help with that, ping #dsp-devops-champions and we can point you in the right direction.
+  # Lastly, the deployment part won't work until your app has an actual chart and is deployed in dev. We can
+  # help with that, ping #dsp-devops-champions and we can point you in the right direction.
   #
 
   # report-to-sherlock:
