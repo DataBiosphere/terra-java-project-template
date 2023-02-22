@@ -22,6 +22,8 @@ dependencies {
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.2'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.4'
 
     liquibaseRuntime 'org.liquibase:liquibase-core'
     liquibaseRuntime 'info.picocli:picocli:4.6.1'

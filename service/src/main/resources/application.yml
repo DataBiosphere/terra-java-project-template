@@ -52,6 +52,14 @@ spring:
         useLastModified: false
       staticLocations: classpath:/api/
 
+management:
+  server:
+    port: 9098
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 javatemplate:
   ingress:
     # Default value that's overridden by Helm.

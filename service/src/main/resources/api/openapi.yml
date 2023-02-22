@@ -98,6 +98,22 @@ paths:
                 type: boolean
         '500':
           $ref: '#/components/responses/ServerError'
+  /api/example/v1/counter:
+    post:
+      summary: increment a metrics counter
+      tags: [ example ]
+      operationId: incrementCounter
+      requestBody:
+        description: tag for counter
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: success
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 components:
   responses:
