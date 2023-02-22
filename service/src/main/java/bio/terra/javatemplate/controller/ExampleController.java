@@ -8,12 +8,19 @@ import bio.terra.javatemplate.config.SamConfiguration;
 import bio.terra.javatemplate.iam.SamService;
 import bio.terra.javatemplate.model.Example;
 import bio.terra.javatemplate.service.ExampleService;
+import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.Tag;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class ExampleController implements ExampleApi {
+
+  public static final String EXAMPLE_COUNTER_TAG = "tag";
+  public static final String EXAMPLE_COUNTER_NAME = "example.counter";
+
   private final ExampleService exampleService;
   private final BearerTokenFactory bearerTokenFactory;
   private final SamUserFactory samUserFactory;
@@ -62,5 +69,13 @@ public class ExampleController implements ExampleApi {
   public ResponseEntity<Boolean> getAction(String resourceType, String resourceId, String action) {
     var bearerToken = bearerTokenFactory.from(request);
     return ResponseEntity.ok(samService.getAction(resourceType, resourceId, action, bearerToken));
+  }
+
+  @Override
+  public ResponseEntity<Void> incrementCounter(String tag) {
+    Metrics.globalRegistry
+        .counter(EXAMPLE_COUNTER_NAME, List.of(Tag.of(EXAMPLE_COUNTER_TAG, tag)))
+        .increment();
+    return ResponseEntity.noContent().build();
   }
 }

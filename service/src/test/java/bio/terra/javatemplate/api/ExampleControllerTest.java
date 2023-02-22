@@ -1,8 +1,11 @@
 package bio.terra.javatemplate.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +18,8 @@ import bio.terra.javatemplate.controller.ExampleController;
 import bio.terra.javatemplate.iam.SamService;
 import bio.terra.javatemplate.model.Example;
 import bio.terra.javatemplate.service.ExampleService;
+import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Optional;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
@@ -66,5 +71,33 @@ public class ExampleControllerTest {
     when(serviceMock.getExampleForUser(testUser.getSubjectId())).thenReturn(Optional.empty());
 
     mockMvc.perform(get("/api/example/v1/message")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  void testIncrementCounter() throws Exception {
+    var meterRegistry = new SimpleMeterRegistry();
+    Metrics.globalRegistry.add(meterRegistry);
+
+    try {
+      final String tagValue = "tag_value";
+      mockMvc
+          .perform(
+              post("/api/example/v1/counter")
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(tagValue))
+          .andExpect(status().isNoContent());
+
+      var counter =
+          meterRegistry
+              .find(ExampleController.EXAMPLE_COUNTER_NAME)
+              .tags(ExampleController.EXAMPLE_COUNTER_TAG, tagValue)
+              .counter();
+
+      assertNotNull(counter);
+      assertEquals(counter.count(), 1);
+
+    } finally {
+      Metrics.globalRegistry.remove(meterRegistry);
+    }
   }
 }
