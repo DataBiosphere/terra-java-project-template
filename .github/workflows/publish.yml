@@ -74,7 +74,7 @@ jobs:
 
 
   #
-  # Hey! You'll probably want to uncomment below this point: it deploys newly published versions to dev!
+  # Hey! You'll probably want to adjust below this point: it deploys newly published versions to dev!
   #
   # You'll need to create a new chart entry in Beehive first, at https://broad.io/beehive/charts/new (chart 
   # names can't be changed, so be sure beforehand). Replace 'javatemplate' below with whatever name you choose.
