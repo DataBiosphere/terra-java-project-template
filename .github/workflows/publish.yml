@@ -88,7 +88,7 @@ jobs:
 
   report-to-sherlock:
     # Report new version to Broad DevOps
-    uses: broadinstitute/sherlock/.github/workflows/client-report-app-version.yaml@main
+    uses: broadinstitute/sherlock/.github/workflows/client-report-app-version.yaml@DDO-2914-related-resources
     needs: publish-job
     with:
       new-version: ${{ needs.publish-job.outputs.tag }}
@@ -99,7 +99,7 @@ jobs:
 
   set-version-in-dev:
     # Put new version in Broad dev environment
-    uses: broadinstitute/sherlock/.github/workflows/client-set-environment-app-version.yaml@main
+    uses: broadinstitute/sherlock/.github/workflows/client-set-environment-app-version.yaml@DDO-2914-related-resources
     needs: [publish-job, report-to-sherlock]
     with:
       new-version: ${{ needs.publish-job.outputs.tag }}
