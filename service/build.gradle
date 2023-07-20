@@ -62,3 +62,10 @@ liquibase {
         }
     }
 }
+
+// Fixes issue encountered with upgrade to Gradle 8
+// scope = runtime is the suggested setting when build.gradle includes api or implementation keywords
+// https://docs.veracode.com/r/Gradle_Plugin_Configurations
+srcclr {
+    scope = "runtime"
+}
