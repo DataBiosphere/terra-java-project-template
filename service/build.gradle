@@ -62,3 +62,7 @@ liquibase {
         }
     }
 }
+
+srcclr {
+    scope = 'runtimeClasspath'
+}
