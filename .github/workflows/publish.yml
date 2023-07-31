@@ -60,7 +60,7 @@ jobs:
         run: docker push ${{ steps.image-name.outputs.name }}
 
       # - name: Notify slack on failure
-      #   uses: broadinstitute/action-slack@v3.8.0
+      #   uses: broadinstitute/action-slack@v3.15.0
       #   if: failure()
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -76,7 +76,7 @@ jobs:
   #
   # Hey! You'll probably want to adjust below this point: it deploys newly published versions to dev!
   #
-  # You'll need to create a new chart entry in Beehive first, at https://broad.io/beehive/charts/new (chart 
+  # You'll need to create a new chart entry in Beehive first, at https://broad.io/beehive/charts/new (chart
   # names can't be changed, so be sure beforehand). Replace 'javatemplate' below with whatever name you choose.
   #
   # You'll also need to add some access to your new repo to allow it to run these steps. We have docs on the

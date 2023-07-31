@@ -70,7 +70,7 @@ jobs:
 
     steps:
       - name: Fire off Trivy action
-        uses: broadinstitute/workflow-dispatch@v1
+        uses: broadinstitute/workflow-dispatch@v3
         with:
           workflow: Trivy
           token: ${{ secrets.BROADBOT_TOKEN }}
@@ -202,7 +202,7 @@ jobs:
 
     steps:
       - name: Notify slack on failure
-        uses: broadinstitute/action-slack@v3.8.0
+        uses: broadinstitute/action-slack@v3.15.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
@@ -221,7 +221,7 @@ jobs:
 
     steps:
       - name: Fire off tag action
-        uses: broadinstitute/workflow-dispatch@v1
+        uses: broadinstitute/workflow-dispatch@v3
         with:
           workflow: Tag
           token: ${{ secrets.BROADBOT_TOKEN }}

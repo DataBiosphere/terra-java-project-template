@@ -134,7 +134,7 @@ jobs:
 
     steps:
       - name: "Notify #jade-data-explorer Slack on failure"
-        uses: broadinstitute/action-slack@v3.8.0
+        uses: broadinstitute/action-slack@v3.15.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           STATUS: failure
@@ -155,7 +155,7 @@ jobs:
 
     steps:
       - name: "Always notify #dsde-qa Slack"
-        uses: broadinstitute/action-slack@v3.8.0
+        uses: broadinstitute/action-slack@v3.15.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           STATUS: >-
