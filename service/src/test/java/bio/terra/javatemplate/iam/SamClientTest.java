@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class SamClientTest {
   private static final String BASE_PATH = "basepath";
   private static final String TOKEN = "token";
-  private static final String AUTH_NAME = "b2coauth";
+  private static final String AUTH_NAME = "googleoauth";
 
   private final SamClient client = new SamClient(new SamConfiguration(BASE_PATH));
 

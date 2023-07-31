@@ -24,7 +24,7 @@ dependencies {
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.4.0'
 
     // Terra Test Runner Library
-    implementation 'bio.terra:terra-test-runner:0.1.5-SNAPSHOT'
+    implementation 'bio.terra:terra-test-runner:0.2.0-SNAPSHOT'
 
     // Requires client libraries
     implementation project(':client')
