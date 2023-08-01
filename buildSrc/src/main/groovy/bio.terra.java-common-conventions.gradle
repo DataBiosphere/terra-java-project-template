@@ -93,7 +93,7 @@ spotbugsMain {
 
 jacocoTestReport {
     reports {
-        // sonarqube requires XML coverage output to upload coverage data
+        // sonar requires XML coverage output to upload coverage data
         xml.required = true
     }
 }
