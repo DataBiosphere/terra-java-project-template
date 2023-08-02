@@ -18,11 +18,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.retry:spring-retry'
-    implementation 'org.broadinstitute.dsde.workbench:sam-client_2.13:0.1-9867891-SNAP'
+    implementation 'org.broadinstitute.dsde.workbench:sam-client_2.13:0.1-44e9a17-SNAP'
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus:1.10.4'
 
     liquibaseRuntime 'org.liquibase:liquibase-core'
@@ -42,7 +42,7 @@ test {
     useJUnitPlatform ()
 }
 
-sonarqube {
+sonar {
     properties {
         property 'sonar.projectName', 'terra-java-project-template'
         property 'sonar.projectKey', 'terra-java-project-template'
@@ -61,4 +61,8 @@ liquibase {
             logLevel 'info'
         }
     }
+}
+
+srcclr {
+    scope = 'runtimeClasspath'
 }
