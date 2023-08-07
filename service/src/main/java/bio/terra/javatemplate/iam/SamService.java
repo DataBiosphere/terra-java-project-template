@@ -16,14 +16,15 @@ import org.springframework.stereotype.Component;
 public class SamService {
   private static final Logger logger = LoggerFactory.getLogger(SamService.class);
   private final SamClient samClient;
+  private final BearerToken bearerToken;
 
   @Autowired
-  public SamService(SamClient samClient) {
+  public SamService(SamClient samClient, BearerToken bearerToken) {
     this.samClient = samClient;
+    this.bearerToken = bearerToken;
   }
 
-  public boolean getAction(
-      String resourceType, String resourceId, String action, BearerToken bearerToken) {
+  public boolean getAction(String resourceType, String resourceId, String action) {
     try {
       return SamRetry.retry(
           () ->

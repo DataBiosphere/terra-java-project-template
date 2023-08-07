@@ -1,11 +1,17 @@
 package bio.terra.javatemplate;
 
+import bio.terra.common.iam.BearerToken;
+import bio.terra.common.iam.BearerTokenFactory;
+import bio.terra.common.iam.SamUser;
+import bio.terra.common.iam.SamUserFactory;
 import bio.terra.common.logging.LoggingInitializer;
+import bio.terra.javatemplate.config.SamConfiguration;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,6 +22,7 @@ import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.context.annotation.RequestScope;
 
 @SpringBootApplication(
     scanBasePackages = {
@@ -42,9 +49,14 @@ public class App {
   }
 
   private final DataSource dataSource;
+  private final SamConfiguration samConfiguration;
+  private final SamUserFactory samUserFactory;
 
-  public App(DataSource dataSource) {
+  public App(
+      DataSource dataSource, SamConfiguration samConfiguration, SamUserFactory samUserFactory) {
     this.dataSource = dataSource;
+    this.samConfiguration = samConfiguration;
+    this.samUserFactory = samUserFactory;
   }
 
   @Bean("objectMapper")
@@ -61,5 +73,17 @@ public class App {
   @Bean("transactionManager")
   public PlatformTransactionManager getTransactionManager() {
     return new JdbcTransactionManager(this.dataSource);
+  }
+
+  @Bean
+  @RequestScope
+  public BearerToken bearerToken(HttpServletRequest request) {
+    return new BearerTokenFactory().from(request);
+  }
+
+  @Bean
+  @RequestScope
+  public SamUser samUser(HttpServletRequest request) {
+    return samUserFactory.from(request, samConfiguration.basePath());
   }
 }

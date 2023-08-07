@@ -13,11 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SamClient {
   private final SamConfiguration samConfig;
-  private final OkHttpClient okHttpClient;
+  private final OkHttpClient okHttpClient = new ApiClient().getHttpClient();
 
   public SamClient(SamConfiguration samConfig) {
     this.samConfig = samConfig;
-    this.okHttpClient = new ApiClient().getHttpClient();
   }
 
   private ApiClient getApiClient(String accessToken) {
@@ -28,7 +27,7 @@ public class SamClient {
 
   private ApiClient getApiClient() {
     var okHttpClientWithTracing =
-        this.okHttpClient
+        okHttpClient
             .newBuilder()
             .addInterceptor(new OkHttpClientTracingInterceptor(Tracing.getTracer()))
             .build();
