@@ -72,7 +72,7 @@ public class App {
   // @Transaction annotation to control the transaction properties of the data source.
   @Bean("transactionManager")
   public PlatformTransactionManager getTransactionManager() {
-    return new JdbcTransactionManager(this.dataSource);
+    return new JdbcTransactionManager(dataSource);
   }
 
   @Bean
