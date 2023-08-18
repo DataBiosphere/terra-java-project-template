@@ -1,7 +1,7 @@
-package bio.terra.javatemplate.iam;
+package bio.terra.${{values.projectSlug}}.iam;
 
 import bio.terra.common.tracing.OkHttpClientTracingInterceptor;
-import bio.terra.javatemplate.config.SamConfiguration;
+import bio.terra.${{values.projectSlug}}.config.SamConfiguration;
 import io.opencensus.trace.Tracing;
 import okhttp3.OkHttpClient;
 import org.broadinstitute.dsde.workbench.client.sam.ApiClient;

@@ -1,13 +1,13 @@
-package bio.terra.javatemplate.controller;
+package bio.terra.${{values.projectSlug}}.controller;
 
 import bio.terra.common.iam.BearerTokenFactory;
 import bio.terra.common.iam.SamUser;
 import bio.terra.common.iam.SamUserFactory;
-import bio.terra.javatemplate.api.ExampleApi;
-import bio.terra.javatemplate.config.SamConfiguration;
-import bio.terra.javatemplate.iam.SamService;
-import bio.terra.javatemplate.model.Example;
-import bio.terra.javatemplate.service.ExampleService;
+import bio.terra.${{values.projectSlug}}.api.ExampleApi;
+import bio.terra.${{values.projectSlug}}.config.SamConfiguration;
+import bio.terra.${{values.projectSlug}}.iam.SamService;
+import bio.terra.${{values.projectSlug}}.model.Example;
+import bio.terra.${{values.projectSlug}}.service.ExampleService;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tag;
 import java.util.List;

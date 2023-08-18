@@ -1,8 +1,8 @@
-package bio.terra.javatemplate.service;
+package bio.terra.${{values.projectSlug}}.service;
 
-import bio.terra.javatemplate.config.StatusCheckConfiguration;
-import bio.terra.javatemplate.iam.SamService;
-import bio.terra.javatemplate.model.SystemStatusSystems;
+import bio.terra.${{values.projectSlug}}.config.StatusCheckConfiguration;
+import bio.terra.${{values.projectSlug}}.iam.SamService;
+import bio.terra.${{values.projectSlug}}.model.SystemStatusSystems;
 import java.sql.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

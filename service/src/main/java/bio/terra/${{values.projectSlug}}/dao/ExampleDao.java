@@ -1,6 +1,6 @@
-package bio.terra.javatemplate.dao;
+package bio.terra.${{values.projectSlug}}.dao;
 
-import bio.terra.javatemplate.model.Example;
+import bio.terra.${{values.projectSlug}}.model.Example;
 import io.opencensus.contrib.spring.aop.Traced;
 import java.util.Optional;
 import org.springframework.dao.support.DataAccessUtils;

@@ -1,6 +1,6 @@
-package bio.terra.javatemplate.config;
+package bio.terra.${{values.projectSlug}}.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "javatemplate.sam")
+@ConfigurationProperties(prefix = "${{values.projectSlug}}.sam")
 public record SamConfiguration(String basePath) {}

@@ -1,10 +1,10 @@
-package bio.terra.javatemplate.controller;
+package bio.terra.${{values.projectSlug}}.controller;
 
-import bio.terra.javatemplate.api.PublicApi;
-import bio.terra.javatemplate.config.VersionConfiguration;
-import bio.terra.javatemplate.model.SystemStatus;
-import bio.terra.javatemplate.model.VersionProperties;
-import bio.terra.javatemplate.service.StatusService;
+import bio.terra.${{values.projectSlug}}.api.PublicApi;
+import bio.terra.${{values.projectSlug}}.config.VersionConfiguration;
+import bio.terra.${{values.projectSlug}}.model.SystemStatus;
+import bio.terra.${{values.projectSlug}}.model.VersionProperties;
+import bio.terra.${{values.projectSlug}}.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

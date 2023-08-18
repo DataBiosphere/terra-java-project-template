@@ -1,7 +1,7 @@
-package bio.terra.javatemplate.controller;
+package bio.terra.${{values.projectSlug}}.controller;
 
 import bio.terra.common.exception.AbstractGlobalExceptionHandler;
-import bio.terra.javatemplate.model.ErrorReport;
+import bio.terra.${{values.projectSlug}}.model.ErrorReport;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

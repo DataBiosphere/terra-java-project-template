@@ -1,9 +1,9 @@
-package bio.terra.javatemplate.iam;
+package bio.terra.${{values.projectSlug}}.iam;
 
 import bio.terra.common.iam.BearerToken;
 import bio.terra.common.sam.SamRetry;
 import bio.terra.common.sam.exception.SamExceptionFactory;
-import bio.terra.javatemplate.model.SystemStatusSystems;
+import bio.terra.${{values.projectSlug}}.model.SystemStatusSystems;
 import java.util.List;
 import org.broadinstitute.dsde.workbench.client.sam.ApiException;
 import org.broadinstitute.dsde.workbench.client.sam.model.SystemStatus;
