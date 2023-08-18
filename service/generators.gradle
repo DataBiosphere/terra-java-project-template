@@ -10,7 +10,7 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
-def artifactGroup = "${group}.javatemplate"
+def artifactGroup = "${group}.${{values.projectSlug}}"
 
 generateSwaggerCode {
     inputFile = file('src/main/resources/api/openapi.yml')
@@ -37,8 +37,8 @@ compileJava.dependsOn generateSwaggerCode
 // see https://github.com/n0mer/gradle-git-properties
 gitProperties {
     keys = []
-    customProperty('javatemplate.version.gitTag', { it.describe(tags: true) })
-    customProperty('javatemplate.version.gitHash', { it.head().abbreviatedId })
-    customProperty('javatemplate.version.github', { "https://github.com/DataBiosphere/terra-java-project-template/tree/${it.describe(tags: true)}" })
-    customProperty('javatemplate.version.build', version)
+    customProperty('${{values.projectSlug}}.version.gitTag', { it.describe(tags: true) })
+    customProperty('${{values.projectSlug}}.version.gitHash', { it.head().abbreviatedId })
+    customProperty('${{values.projectSlug}}.version.github', { "https://github.com/DataBiosphere/terra-java-project-template/tree/${it.describe(tags: true)}" })
+    customProperty('${{values.projectSlug}}.version.build', version)
 }

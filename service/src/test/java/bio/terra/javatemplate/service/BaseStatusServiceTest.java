@@ -1,11 +1,11 @@
-package bio.terra.javatemplate.service;
+package bio.terra.${{values.projectSlug}}.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import bio.terra.javatemplate.config.StatusCheckConfiguration;
-import bio.terra.javatemplate.model.SystemStatus;
-import bio.terra.javatemplate.model.SystemStatusSystems;
+import bio.terra.${{values.projectSlug}}.config.StatusCheckConfiguration;
+import bio.terra.${{values.projectSlug}}.model.SystemStatus;
+import bio.terra.${{values.projectSlug}}.model.SystemStatusSystems;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package bio.terra.javatemplate;
+package bio.terra.${{values.projectSlug}};
 
 import bio.terra.common.logging.LoggingInitializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,9 +30,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
       // Scan for tracing-related components & configs
       "bio.terra.common.tracing",
       // Scan all service-specific packages beneath the current package
-      "bio.terra.javatemplate"
+      "bio.terra.${{values.projectSlug}}"
     })
-@ConfigurationPropertiesScan("bio.terra.javatemplate")
+@ConfigurationPropertiesScan("bio.terra.${{values.projectSlug}}")
 @EnableRetry
 @EnableTransactionManagement
 @EnableConfigurationProperties

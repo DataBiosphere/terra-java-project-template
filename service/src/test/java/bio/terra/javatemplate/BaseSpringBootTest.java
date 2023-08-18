@@ -1,4 +1,4 @@
-package bio.terra.javatemplate;
+package bio.terra.${{values.projectSlug}};
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

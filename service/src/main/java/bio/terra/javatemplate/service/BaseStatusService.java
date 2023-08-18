@@ -1,8 +1,8 @@
-package bio.terra.javatemplate.service;
+package bio.terra.${{values.projectSlug}}.service;
 
-import bio.terra.javatemplate.config.StatusCheckConfiguration;
-import bio.terra.javatemplate.model.SystemStatus;
-import bio.terra.javatemplate.model.SystemStatusSystems;
+import bio.terra.${{values.projectSlug}}.config.StatusCheckConfiguration;
+import bio.terra.${{values.projectSlug}}.model.SystemStatus;
+import bio.terra.${{values.projectSlug}}.model.SystemStatusSystems;
 import com.google.common.annotations.VisibleForTesting;
 import java.time.Instant;
 import java.util.Map;

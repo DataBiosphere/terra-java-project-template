@@ -1,4 +1,4 @@
-package bio.terra.javatemplate.api;
+package bio.terra.${{values.projectSlug}}.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,11 +13,11 @@ import bio.terra.common.iam.BearerToken;
 import bio.terra.common.iam.BearerTokenFactory;
 import bio.terra.common.iam.SamUser;
 import bio.terra.common.iam.SamUserFactory;
-import bio.terra.javatemplate.config.SamConfiguration;
-import bio.terra.javatemplate.controller.ExampleController;
-import bio.terra.javatemplate.iam.SamService;
-import bio.terra.javatemplate.model.Example;
-import bio.terra.javatemplate.service.ExampleService;
+import bio.terra.${{values.projectSlug}}.config.SamConfiguration;
+import bio.terra.${{values.projectSlug}}.controller.ExampleController;
+import bio.terra.${{values.projectSlug}}.iam.SamService;
+import bio.terra.${{values.projectSlug}}.model.Example;
+import bio.terra.${{values.projectSlug}}.service.ExampleService;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Optional;

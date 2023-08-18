@@ -1,8 +1,8 @@
-package bio.terra.javatemplate.dao;
+package bio.terra.${{values.projectSlug}}.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import bio.terra.javatemplate.model.Example;
+import bio.terra.${{values.projectSlug}}.model.Example;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

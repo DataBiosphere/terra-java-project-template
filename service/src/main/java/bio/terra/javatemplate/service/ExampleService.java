@@ -1,9 +1,9 @@
-package bio.terra.javatemplate.service;
+package bio.terra.${{values.projectSlug}}.service;
 
 import bio.terra.common.db.ReadTransaction;
 import bio.terra.common.db.WriteTransaction;
-import bio.terra.javatemplate.dao.ExampleDao;
-import bio.terra.javatemplate.model.Example;
+import bio.terra.${{values.projectSlug}}.dao.ExampleDao;
+import bio.terra.${{values.projectSlug}}.model.Example;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

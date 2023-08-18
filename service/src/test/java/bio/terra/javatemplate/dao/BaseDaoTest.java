@@ -1,6 +1,6 @@
-package bio.terra.javatemplate.dao;
+package bio.terra.${{values.projectSlug}}.dao;
 
-import bio.terra.javatemplate.BaseSpringBootTest;
+import bio.terra.${{values.ProjectSlug}}.BaseSpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 

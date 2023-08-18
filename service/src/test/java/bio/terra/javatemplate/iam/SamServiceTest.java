@@ -1,10 +1,10 @@
-package bio.terra.javatemplate.iam;
+package bio.terra.${{values.projectSlug}}.iam;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import bio.terra.javatemplate.BaseSpringBootTest;
+import bio.terra.${{values.projectSlug}}.BaseSpringBootTest;
 import org.broadinstitute.dsde.workbench.client.sam.ApiException;
 import org.broadinstitute.dsde.workbench.client.sam.api.StatusApi;
 import org.broadinstitute.dsde.workbench.client.sam.model.SystemStatus;

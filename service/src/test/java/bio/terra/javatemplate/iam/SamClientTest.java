@@ -1,9 +1,9 @@
-package bio.terra.javatemplate.iam;
+package bio.terra.${{values.projectSlug}}.iam;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import bio.terra.javatemplate.config.SamConfiguration;
+import bio.terra.${{values.projectSlug}}.config.SamConfiguration;
 import org.broadinstitute.dsde.workbench.client.sam.ApiClient;
 import org.broadinstitute.dsde.workbench.client.sam.auth.OAuth;
 import org.junit.jupiter.api.Test;

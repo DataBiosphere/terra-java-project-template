@@ -33,8 +33,8 @@ server:
 spring:
   # application name and version are used to populate the logging serviceContext
   # https://github.com/DataBiosphere/terra-common-lib/blob/480ab3daae282ddff0fef8dc329494a4422e32f1/src/main/java/bio/terra/common/logging/GoogleJsonLayout.java#L118
-  application.name: javatemplate
-  application.version: ${javatemplate.version.gitHash:unknown}
+  application.name: ${{values.projectSlug}}
+  application.version: ${${{values.projectSlug}}.version.gitHash:unknown}
 
   datasource:
     hikari:
@@ -61,7 +61,7 @@ management:
       exposure:
         include: "*"
 
-javatemplate:
+${{values.projectSlug}}:
   ingress:
     # Default value that's overridden by Helm.
     domainName: localhost:8080

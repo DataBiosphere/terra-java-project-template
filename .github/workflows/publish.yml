@@ -92,7 +92,7 @@ jobs:
     needs: publish-job
     with:
       new-version: ${{ needs.publish-job.outputs.tag }}
-      chart-name: 'javatemplate'
+      chart-name: '${{values.projectSlug}}'
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -103,8 +103,8 @@ jobs:
     needs: [publish-job, report-to-sherlock]
     with:
       new-version: ${{ needs.publish-job.outputs.tag }}
-      chart-name: 'javatemplate'
-      environment-name: 'template-services'
+      chart-name: '${{values.projectSlug}}'
+      environment-name: 'dev'
     secrets:
       sync-git-token: ${{ secrets.BROADBOT_TOKEN }}
     permissions:

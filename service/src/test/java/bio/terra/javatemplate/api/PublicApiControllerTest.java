@@ -1,4 +1,4 @@
-package bio.terra.javatemplate.api;
+package bio.terra.${{values.projectSlug}}.api;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import bio.terra.javatemplate.config.VersionConfiguration;
-import bio.terra.javatemplate.controller.PublicApiController;
-import bio.terra.javatemplate.model.SystemStatus;
-import bio.terra.javatemplate.service.StatusService;
+import bio.terra.${{values.projectSlug}}.config.VersionConfiguration;
+import bio.terra.${{values.projectSlug}}.controller.PublicApiController;
+import bio.terra.${{values.projectSlug}}.model.SystemStatus;
+import bio.terra.${{values.projectSlug}}.service.StatusService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,7 +45,7 @@ class PublicApiControllerTest {
   void testVersion() throws Exception {
     String gitTag = "0.1.0";
     String gitHash = "abc1234";
-    String github = "https://github.com/DataBiosphere/terra-java-project-template/tree/0.9.0";
+    String github = "https://github.com/DataBiosphere/${{values.name}}/tree/0.9.0";
     String build = "0.1.0";
 
     when(versionConfiguration.gitTag()).thenReturn(gitTag);

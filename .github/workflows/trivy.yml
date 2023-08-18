@@ -32,20 +32,3 @@ jobs:
         uses: broadinstitute/dsp-appsec-trivy-action@v1
         with:
           image: ${{ steps.image-name.outputs.name }}
-
-  notify-slack:
-    needs: [ trivy ]
-    runs-on: ubuntu-latest
-    if: failure()
-    steps:
-      - name: Notify slack on failure
-        uses: broadinstitute/action-slack@v3.15.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          channel: '#jade-data-explorer'
-          status: failure
-          author_name: Trivy action
-          fields: workflow,message
-          text: 'Trivy scan failure :sadpanda:'
-          username: 'Data Explorer GitHub Action'
