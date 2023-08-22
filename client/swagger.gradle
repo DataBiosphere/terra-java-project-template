@@ -9,7 +9,7 @@ dependencies {
     swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli'
 }
 
-def artifactGroup = "${group}.javatemplate"
+def artifactGroup = "${group}.${{values.projectSlug}}"
 
 generateSwaggerCode {
     inputFile = file('../service/src/main/resources/api/openapi.yml')

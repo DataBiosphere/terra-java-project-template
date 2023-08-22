@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Terra Java Project Template
-  description: Terra Java Project Template
+  title: ${{values.name}}
+  description: ${{values.name}}
   version: 0.0.1
 paths:
   /status:

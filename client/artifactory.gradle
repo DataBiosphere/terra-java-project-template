@@ -18,8 +18,8 @@ java {
 
 publishing {
     publications {
-        javatemplateClientLibrary(MavenPublication) {
-            artifactId = "javatemplate-client"
+        ${{values.projectSlug}}ClientLibrary(MavenPublication) {
+            artifactId = "${{values.projectSlug}}-client"
             from components.java
             versionMapping {
                 usage("java-runtime") {
@@ -41,7 +41,7 @@ artifactory {
         defaults {
             // This is how we tell the Artifactory Plugin which artifacts should be published to Artifactory.
             // Reference to Gradle publications defined in the build script.
-            publications("javatemplateClientLibrary")
+            publications("${{values.projectSlug}}ClientLibrary")
             publishArtifacts = true
             publishPom = true
         }

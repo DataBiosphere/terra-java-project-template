@@ -44,8 +44,8 @@ test {
 
 sonar {
     properties {
-        property 'sonar.projectName', 'terra-java-project-template'
-        property 'sonar.projectKey', 'terra-java-project-template'
+        property 'sonar.projectName', '${{values.name}}'
+        property 'sonar.projectKey', '${{values.name}}'
         property 'sonar.organization', 'broad-databiosphere'
         property 'sonar.host.url', 'https://sonarcloud.io'
     }
@@ -55,7 +55,7 @@ liquibase {
     activities {
         catalog {
             changeLogFile 'src/main/resources/db/changelog.xml'
-            url 'jdbc:postgresql://localhost:5432/javatemplate_db'
+            url 'jdbc:postgresql://localhost:5432/${{values.projectSlug}}_db'
             username 'dbuser'
             password 'dbpwd'
             logLevel 'info'

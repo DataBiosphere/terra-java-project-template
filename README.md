@@ -1,4 +1,4 @@
-## Terra Java template
+## ${{values.name}}
 
 ### Mission
 This repository contains codified best practices for creating a new service/application in the Terra ecosystem.

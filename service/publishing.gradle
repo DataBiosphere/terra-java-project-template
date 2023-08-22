@@ -29,10 +29,10 @@ jib {
     }
     container {
         filesModificationTime = ZonedDateTime.now().toString() // to prevent ui caching
-        mainClass = 'bio.terra.javatemplate.App'
+        mainClass = 'bio.terra.${{values.projectSlug}}.App'
         jvmFlags = [
             "-agentpath:" + cloudProfilerLocation + "/profiler_java_agent.so=" +
-                "-cprof_service=bio.terra.javatemplate" +
+                "-cprof_service=bio.terra.${{values.projectSlug}}" +
                 ",-cprof_service_version=" + version +
                 ",-cprof_enable_heap_sampling=true" +
                 ",-logtostderr" +
