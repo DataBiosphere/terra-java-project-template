@@ -4,6 +4,7 @@ kind: Component
 metadata:
   name: ${{values.name}}
   description: |
+    Placeholder description...
   tags:
     - go
     - sherlock
@@ -24,8 +25,7 @@ kind: API
 metadata:
   name: ${{values.name}}-api
   description: |
-    The API for Sherlock, which stores information about our Kubernetes-based deployments, including Helm Chart versions and application versions. 
-    Sherlock doesn't do the deploying itself--it offers an API that other tools can use to understand our infrastructure.
+    Placeholder API description...
   tags:
     - java
     - dsp
