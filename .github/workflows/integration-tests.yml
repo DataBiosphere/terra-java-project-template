@@ -147,6 +147,7 @@ jobs:
       # notify-slack-channels-upon-workflow-failure: "#channel-here"
 
       # Report which environment the workflow ran in
+      # chart-release is the term used by dsp-devops tooling to refer to an environment/application pair.
       relates-to-chart-releases: ${{ steps.test-env.outputs.test-env }}/javatemplate
     permissions:
       id-token: 'write'
