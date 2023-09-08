@@ -36,7 +36,7 @@ jobs:
   # report workflow status in slack
   # see https://docs.google.com/document/d/1G6-whnNJvON6Qq1b3VvRJFC7M9M-gu2dAVrQHDyp9Us/edit?usp=sharing
   report-workflow:
-    uses: broadinstitute/sherlock/.github/workflows/client-report-workflow-status.yaml@main
+    uses: broadinstitute/sherlock/.github/workflows/client-report-workflow.yaml@main
     with:
       # Channels to notify upon workflow success or failure
       notify-slack-channels-upon-workflow-completion: '#ap-k8s-monitor'
