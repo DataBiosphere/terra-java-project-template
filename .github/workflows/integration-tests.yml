@@ -130,6 +130,11 @@ jobs:
   # report workflow status in slack
   # see https://docs.google.com/document/d/1G6-whnNJvON6Qq1b3VvRJFC7M9M-gu2dAVrQHDyp9Us/edit?usp=sharing
   report-workflow:
+    # we only need a needs clause here now because we need output generated from that the test-env job
+    # in order to pass which environment the workflow ran in to the report-workflow job.
+    # This will still handle workflow completion properly without 'need'ing the other jobs,
+    # This calculation of workflow completion/status is handled by dsp-devops internal tooling. Reach out in #dsp-devops-champions if you have questions
+    needs: [test-env]
     uses: broadinstitute/sherlock/.github/workflows/client-report-workflow.yaml@main
     with:
       # Channels to notify upon workflow success or failure
@@ -140,5 +145,9 @@ jobs:
 
       # Channels to notify upon workflow failure only
       # notify-slack-channels-upon-workflow-failure: "#channel-here"
+
+      # Report which environment the workflow ran in
+      # chart-release is the term used by dsp-devops tooling to refer to an environment/application pair.
+      relates-to-chart-releases: ${{ steps.test-env.outputs.test-env }}/javatemplate
     permissions:
       id-token: 'write'
