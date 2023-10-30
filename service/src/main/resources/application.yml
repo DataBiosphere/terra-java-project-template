@@ -9,8 +9,8 @@ env:
     password: ${DATABASE_USER_PASSWORD:dbpwd}
     user: ${DATABASE_USER:dbuser}
   tracing:
-    exportEnabled: ${CLOUD_TRACE_ENABLED:false}
-    samplingRate: ${SAMPLING_PROBABILITY:0}
+    exportEnabled: ${CLOUD_TRACE_ENABLED:true}
+    samplingRate: ${SAMPLING_PROBABILITY:1.0}
   sam:
     basePath: ${SAM_ADDRESS:https://sam.dsde-dev.broadinstitute.org}
 
@@ -82,4 +82,15 @@ terra.common:
 
   tracing:
     stackdriverExportEnabled: ${env.tracing.exportEnabled}
-    samplingRate: ${env.tracing.samplingRate}
+
+otel:
+  traces:
+    sampler:
+      probability: ${env.tracing.samplingRate}
+
+  springboot:
+    resource:
+      attributes:
+        service:
+          name: ${spring.application.name}
+          version: ${javatemplate.version.gitTag:unknown}

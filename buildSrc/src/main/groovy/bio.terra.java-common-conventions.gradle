@@ -26,6 +26,7 @@ java {
 }
 
 repositories {
+    mavenLocal()
     maven {
         // Terra proxy for maven central
         url 'https://broadinstitute.jfrog.io/broadinstitute/maven-central/'
@@ -42,13 +43,23 @@ repositories {
 dependencies {
     compileOnly 'com.github.spotbugs:spotbugs-annotations:4.7.2'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.0'
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.31'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'
 
     implementation 'org.slf4j:slf4j-api'
 
     testImplementation 'org.hamcrest:hamcrest:2.2'
 
-    implementation 'bio.terra:terra-common-lib:0.0.75-SNAPSHOT'
+    implementation 'io.opentelemetry:opentelemetry-api:1.31.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk:1.31.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk-metrics:1.31.0'
+    implementation 'io.opentelemetry:opentelemetry-exporter-logging:1.31.0'
+    implementation 'io.opentelemetry.semconv:opentelemetry-semconv:1.21.0-alpha'
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-webmvc-6.0:1.31.0-alpha'
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.31.0'
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot:1.31.0-alpha'
+    implementation 'com.google.cloud.opentelemetry:exporter-trace:0.25.2'
+
+    implementation 'bio.terra:terra-common-lib:0.1.95-SNAPSHOT'
     implementation 'bio.terra:datarepo-client:1.349.0-SNAPSHOT'
 }
 

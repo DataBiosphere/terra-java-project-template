@@ -30,7 +30,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
       // Scan for tracing-related components & configs
       "bio.terra.common.tracing",
       // Scan all service-specific packages beneath the current package
-      "bio.terra.javatemplate"
+      "bio.terra.javatemplate",
+      "bio.terra.common.opentelemetry"
     })
 @ConfigurationPropertiesScan("bio.terra.javatemplate")
 @EnableRetry

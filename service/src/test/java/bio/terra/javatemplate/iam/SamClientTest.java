@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import bio.terra.javatemplate.config.SamConfiguration;
+import java.util.Optional;
 import org.broadinstitute.dsde.workbench.client.sam.ApiClient;
 import org.broadinstitute.dsde.workbench.client.sam.auth.OAuth;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class SamClientTest {
   private static final String TOKEN = "token";
   private static final String AUTH_NAME = "googleoauth";
 
-  private final SamClient client = new SamClient(new SamConfiguration(BASE_PATH));
+  private final SamClient client = new SamClient(new SamConfiguration(BASE_PATH), Optional.empty());
 
   @Test
   void testApis() {
