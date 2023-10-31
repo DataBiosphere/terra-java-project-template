@@ -9,8 +9,8 @@ env:
     password: ${DATABASE_USER_PASSWORD:dbpwd}
     user: ${DATABASE_USER:dbuser}
   tracing:
-    exportEnabled: ${CLOUD_TRACE_ENABLED:true}
-    samplingRate: ${SAMPLING_PROBABILITY:1.0}
+    exportEnabled: ${CLOUD_TRACE_ENABLED:false}
+    samplingRate: ${SAMPLING_PROBABILITY:0}
   sam:
     basePath: ${SAM_ADDRESS:https://sam.dsde-dev.broadinstitute.org}
 
@@ -81,9 +81,11 @@ terra.common:
     inKubernetes: false
 
   tracing:
-    stackdriverExportEnabled: ${env.tracing.exportEnabled}
+    stackdriverExportEnabled: ${env.tracing.exportEnabled} # set to false to disable tracing exports to gcp
 
 otel:
+  sdk:
+    disabled: false # set to true to disable all open telemetry features
   traces:
     sampler:
       probability: ${env.tracing.samplingRate}
