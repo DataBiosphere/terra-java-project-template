@@ -81,5 +81,18 @@ terra.common:
     inKubernetes: false
 
   tracing:
-    stackdriverExportEnabled: ${env.tracing.exportEnabled}
-    samplingRate: ${env.tracing.samplingRate}
+    sampling-ratio: ${env.tracing.samplingRate}
+  google:
+    tracing:
+      enabled: ${env.tracing.exportEnabled}
+
+otel:
+  sdk:
+    disabled: false # set to true to disable all open telemetry features
+
+  springboot:
+    resource:
+      attributes:
+        service:
+          name: ${spring.application.name}
+          version: ${javatemplate.version.gitTag:unknown}

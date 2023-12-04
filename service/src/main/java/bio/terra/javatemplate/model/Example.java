@@ -1,7 +1,7 @@
 package bio.terra.javatemplate.model;
 
+import jakarta.annotation.Nullable;
 import java.util.Objects;
-import javax.annotation.Nullable;
 
 public record Example(@Nullable Long id, String userId, String message) {
   public Example {

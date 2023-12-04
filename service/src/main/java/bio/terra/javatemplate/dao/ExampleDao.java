@@ -1,7 +1,7 @@
 package bio.terra.javatemplate.dao;
 
 import bio.terra.javatemplate.model.Example;
-import io.opencensus.contrib.spring.aop.Traced;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import java.util.Optional;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,7 +21,7 @@ public class ExampleDao {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  @Traced
+  @WithSpan
   public void upsertExample(Example example) {
     var query =
         "INSERT INTO example (user_id, message)"
@@ -37,7 +37,7 @@ public class ExampleDao {
     jdbcTemplate.update(query, namedParameters);
   }
 
-  @Traced
+  @WithSpan
   public Optional<Example> getExampleForUser(String userId) {
     var namedParameters = new MapSqlParameterSource().addValue("userId", userId);
     var selectSql = "SELECT * FROM example WHERE user_id = :userId";
