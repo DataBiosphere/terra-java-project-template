@@ -15,12 +15,19 @@ import org.springframework.stereotype.Component;
 public class SamClient {
   private final SamConfiguration samConfig;
   private final OkHttpClient okHttpClient;
-  private final Optional<OpenTelemetry> openTelemetry;
 
   public SamClient(SamConfiguration samConfig, Optional<OpenTelemetry> openTelemetry) {
     this.samConfig = samConfig;
-    this.openTelemetry = openTelemetry;
-    this.okHttpClient = new ApiClient().getHttpClient();
+    this.okHttpClient =
+        openTelemetry
+            .map(
+                otel ->
+                    new ApiClient()
+                        .getHttpClient()
+                        .newBuilder()
+                        .addInterceptor(new OkHttpClientTracingInterceptor(otel))
+                        .build())
+            .orElse(new ApiClient().getHttpClient());
   }
 
   private ApiClient getApiClient(String accessToken) {
@@ -30,16 +37,7 @@ public class SamClient {
   }
 
   private ApiClient getApiClient() {
-    var client =
-        openTelemetry
-            .map(
-                otel ->
-                    this.okHttpClient
-                        .newBuilder()
-                        .addInterceptor(new OkHttpClientTracingInterceptor(otel))
-                        .build())
-            .orElse(this.okHttpClient);
-    return new ApiClient().setHttpClient(client).setBasePath(samConfig.basePath());
+    return new ApiClient().setHttpClient(this.okHttpClient).setBasePath(samConfig.basePath());
   }
 
   UsersApi usersApi(String accessToken) {

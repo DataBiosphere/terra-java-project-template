@@ -21,7 +21,7 @@ public class ExampleDao {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  @WithSpan // adds this db to the trace
+  @WithSpan
   public void upsertExample(Example example) {
     var query =
         "INSERT INTO example (user_id, message)"
@@ -37,7 +37,7 @@ public class ExampleDao {
     jdbcTemplate.update(query, namedParameters);
   }
 
-  @WithSpan // adds this db to the trace
+  @WithSpan
   public Optional<Example> getExampleForUser(String userId) {
     var namedParameters = new MapSqlParameterSource().addValue("userId", userId);
     var selectSql = "SELECT * FROM example WHERE user_id = :userId";

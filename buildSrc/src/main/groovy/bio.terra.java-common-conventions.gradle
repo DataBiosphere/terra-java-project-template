@@ -48,7 +48,7 @@ dependencies {
 
     testImplementation 'org.hamcrest:hamcrest:2.2'
 
-    var openTelemetryVersion = '1.31.0'
+    var openTelemetryVersion = '1.32.0'
     implementation "io.opentelemetry:opentelemetry-api:${openTelemetryVersion}"
     implementation "io.opentelemetry:opentelemetry-sdk:${openTelemetryVersion}"
     implementation "io.opentelemetry:opentelemetry-sdk-metrics:${openTelemetryVersion}"
@@ -59,7 +59,7 @@ dependencies {
     implementation "io.opentelemetry.instrumentation:opentelemetry-spring-boot:${openTelemetryVersion}-alpha"
     implementation "com.google.cloud.opentelemetry:exporter-trace:0.25.2"
 
-    implementation 'bio.terra:terra-common-lib:0.1.0-SNAPSHOT'
+    implementation 'bio.terra:terra-common-lib:0.1.5-SNAPSHOT'
     implementation 'bio.terra:datarepo-client:1.349.0-SNAPSHOT'
 }
 
