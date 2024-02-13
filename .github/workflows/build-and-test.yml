@@ -31,11 +31,6 @@ jobs:
       - name: Build all projects without running tests
         run: ./gradlew --build-cache build -x test
 
-      - name: Upload spotbugs results
-        uses: github/codeql-action/upload-sarif@main
-        with:
-          sarif_file: service/build/reports/spotbugs/main.sarif
-
   jib:
     needs: [ build ]
     runs-on: ubuntu-latest
