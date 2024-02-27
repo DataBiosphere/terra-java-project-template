@@ -1,0 +1,5 @@
+# For an example CODEOWNERS file, please see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ensure that this repo's permissions can only be changed by CODEOWNERS
+/.github/CODEOWNERS @platform-foundation-codeowners
