@@ -44,7 +44,7 @@ What does it do?
 
 The following tools are require to interact with this repository.
 
-- create list of tools required here
+- java
 
 To verify your setup, please execute the following command. If any of the setup requirements fail, you have the option of installing
 
