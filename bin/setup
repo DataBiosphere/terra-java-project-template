@@ -1,10 +1,40 @@
 #!/bin/bash
-#
-# shell script to verify the repo has the necessary tooling installed
+# this shell script is responsible for:
+# - making sure your environment is setup, and
+# - setting up a database environment locally for you to use
 
+usage() {
+  echo "usage: $0 [-h|--help]"
+  echo ""
+  echo "[-h|--help]      print this help text"
+}
+
+# script variables and defaults
+TOOLS=(java docker)
+
+
+# process command-line options (if any)
+die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
+needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
+
+while getopts h-: OPT; do  # allow -h and -- "with arg"
+  # support long options: https://stackoverflow.com/a/28466267/519360
+  if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
+    OPT="${OPTARG%%=*}"       # extract long option name
+    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
+    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
+  fi
+  case "$OPT" in
+    h | help )     usage; exit 0 ;;
+    \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
+    * )            die "Illegal option --$OPT" ;;            # bad long option
+  esac
+done
+shift $((OPTIND-1)) # remove parsed options and args from $@ list
+
+# Process input arguments
 # the list of tools required to be installed to interact with this repo
 # this is meant to verify what is also in the ./README.md#environment-setup section
-TOOLS=(java docker)
 
 log() {
   echo "[bin/setup] ${@}"
@@ -27,3 +57,4 @@ echo ""
 
 log "setting up database"
 $(dirname $0)/setup-db start
+log "... database setup COMPLETE"

@@ -64,7 +64,7 @@ Please copy-and-paste the following into your script to get you started.
 # - happy scripting!
 
 usage() {
-  echo "usage: $0 [-a|--alpha] [-b|--bravo] [-c|--charlie] ARG1"
+  echo "usage: $0 [-a|--alpha] [-b|--bravo] [-c|--charlie] [-h|--help] ARG1"
   echo "[-a|--alpha]     example of an option with no value"
   echo "[-b|--bravo]     example of an option taking a value"
   echo "[-c|--charlie]   example of an option and a default [default: $charlie_default]"
@@ -72,7 +72,7 @@ usage() {
   echo "ARG1             just an argument to process"
 }
 
-# Defaults (to be thorough, you could also assign alpha="" and charlie="")
+# script variables and defaults
 bravo="$HOME/Downloads"       # Overridden by the value set by -b or --bravo
 charlie_default="brown"       # Only set given -c or --charlie without an arg
 ARG1=""

@@ -21,12 +21,14 @@ while getopts c:-: OPT; do  # allow -c with arg and -- "with arg"
     OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
   fi
   case "$OPT" in
-    c | cmd )      needs_arg; build_cmd=$OPTARG ;;
-    \? )           exit 2 ;;  # bad short option (error reported via getopts)
+    c )            needs_arg; build_cmd=$OPTARG ;;
+    h | help )     usage; exit 0 ;;
+    \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
     * )            die "Illegal option --$OPT" ;;            # bad long option
   esac
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
+
 
 BLABLAH=$1
 
