@@ -14,6 +14,14 @@
 > `[WM-1997] [WM-2002] [WM-2005]: fix for many bugs with the same root cause`
 >
 
+## Developer convenience scripts
+
+To help accelerate interacting with this repo,
+there are a series of scripts available in the `./bin` directory.
+
+Please refer to the [README.md in that directory](./bin/README.md)
+for more information on those scripts.
+
 
 ```mermaid
 ---
