@@ -10,6 +10,8 @@ usage() {
 }
 
 # script variables and defaults
+# the list of tools required to be installed to interact with this repo
+# this is meant to verify what is also in the ./README.md#environment-setup section
 TOOLS=(java docker)
 
 
@@ -32,9 +34,9 @@ while getopts h-: OPT; do  # allow -h and -- "with arg"
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
-# Process input arguments
-# the list of tools required to be installed to interact with this repo
-# this is meant to verify what is also in the ./README.md#environment-setup section
+
+# process input arguments
+
 
 log() {
   echo "[bin/setup] ${@}"

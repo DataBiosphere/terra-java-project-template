@@ -54,7 +54,7 @@ Please copy-and-paste the following into your script to get you started.
 
 ```shell
 #!/bin/bash
-# This script is here to get you started
+# this script is here to help get you started
 # ACTIONS:
 # - update usage() below
 # - update/remove script variable defaults,
@@ -77,6 +77,8 @@ bravo="$HOME/Downloads"       # Overridden by the value set by -b or --bravo
 charlie_default="brown"       # Only set given -c or --charlie without an arg
 ARG1=""
 
+
+# process command-line options (if any)
 die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
@@ -98,7 +100,8 @@ while getopts ab:ch-: OPT; do  # allow -a, -b with arg, -c, and -- "with arg"
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
-# Process input arguments
+
+# process input arguments (if any)
 ARG1=$1
 
 echo "Hello world!"

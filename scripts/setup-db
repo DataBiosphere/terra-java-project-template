@@ -10,11 +10,14 @@ usage() {
 POSTGRES_VERSION=14
 POSTGRES_PORT=${2:-"5432"}
 
+# these values are currently shared in other scripts
+# init-db/postgres-init.sql
+# service/src/main/resources/application.yml
 DATABASE_NAME=javatemplate_db
 DATABASE_USER=dbuser
 DATABASE_USER_PASSWORD=dbpwd
 
-CONTAINER_NAME=postgres
+CONTAINER_NAME=javatemplate-postgres
 COMMAND=$1
 
 
