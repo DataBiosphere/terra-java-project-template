@@ -1,5 +1,12 @@
-# For an example CODEOWNERS file, please see:
+# Each line is a file pattern followed by one or more owners.
+# For more on the CODEOWNERS file, please see:
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @team-members will be requested for review when someone
+# opens a pull request.
+*       @platform-foundation-codeowners
 
 # ensure that this repo's permissions can only be changed by CODEOWNERS
 /.github/CODEOWNERS @platform-foundation-codeowners

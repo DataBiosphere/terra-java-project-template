@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Start up a postgres container with initial user/database setup.
+POSTGRES_VERSION=14
+POSTGRES_PORT=${2:-"5432"}
+
+DATABASE_NAME=javatemplate_db
+DATABASE_USER=dbuser
+DATABASE_USER_PASSWORD=dbpwd
+
+CONTAINER_NAME=postgres
+COMMAND=$1
+
+start() {
+    echo "attempting to remove old $CONTAINER_NAME container..."
+    docker rm -f $CONTAINER_NAME
+
+    # start up postgres
+    echo "starting up postgres container..."
+    BINDIR=$(dirname "$0")
+    docker create --name $CONTAINER_NAME --rm -e POSTGRES_PASSWORD=password -p "$POSTGRES_PORT:5432" postgres:$POSTGRES_VERSION -c listen_addresses='*'
+    docker cp $BINDIR/init-db/postgres-init.sql $CONTAINER_NAME:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    docker start $CONTAINER_NAME
+
+    # validate postgres
+    echo "running postgres validation..."
+    docker exec $CONTAINER_NAME sh -c "$(cat $BINDIR/init-db/validate_psql.sh)"
+    if [ 0 -eq $? ]; then
+        echo "postgres validation succeeded."
+    else
+        echo "postgres validation failed."
+        exit 1
+    fi
+}
+
+stop() {
+    echo "Stopping docker $CONTAINER_NAME container..."
+    docker stop $CONTAINER_NAME || echo "postgres stop failed. container already stopped."
+    docker rm -v $CONTAINER_NAME
+    exit 0
+}
+
+shell() {
+  docker exec -it $CONTAINER_NAME psql -U $DATABASE_USER $DATABASE_NAME
+}
+
+usage() {
+    echo "Usage: $0 start|stop|shell"
+    exit 1
+}
+
+if [ $COMMAND = "start" ]; then
+    start
+elif [ $COMMAND = "stop" ]; then
+    stop
+elif [ $COMMAND = "shell" ]; then
+    shell
+else
+    usage
+fi

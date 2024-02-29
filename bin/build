@@ -1,0 +1,47 @@
+#!/bin/bash
+# execute all of the steps necessary to build the project
+set -e #-x
+
+build_cmd=build               # Overridden by -c or --cmd
+ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
+
+# option support: https://stackoverflow.com/a/28466267
+# supported option syntaxes include:
+# `x`  -x
+# `x:` -x value or --x-long-name=value
+#
+# unsupported syntax is:
+# --xoption value
+#
+# NOTE: if requiring an option-value with `:`,
+# please specify `needs_arg` first in the case opts below
+#
+die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
+needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
+
+while getopts c:-: OPT; do  # allow -a, -b with arg, -c, and -- "with arg"
+  # support long options: https://stackoverflow.com/a/28466267/519360
+  if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
+    OPT="${OPTARG%%=*}"       # extract long option name
+    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
+    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
+  fi
+  case "$OPT" in
+    c | cmd )      needs_arg; build_cmd=$OPTARG ;;
+    \? )           exit 2 ;;  # bad short option (error reported via getopts)
+    * )            die "Illegal option --$OPT" ;;            # bad long option
+  esac
+done
+shift $((OPTIND-1)) # remove parsed options and args from $@ list
+
+BLABLAH=$1
+
+####
+#
+#
+echo "$ROOT_DIR"
+echo "$build_cmd"
+echo "$BLABLAH"
+
+#${ROOT_DIR}/gradlew -Dorg.gradle.project.buildDir=$ROOT_DIR $build_cmd
+
