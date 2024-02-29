@@ -1,14 +1,14 @@
-# ./bin notes
+# ./scripts notes
 
 This directory contains scripts that are meant to make developer's lives easier.
 
 Each of the files in this directory follow a common pattern:
 
 ```shell
-./CLI [-h|--help]
+./scripts/cli [-h|--help]
 ```
 
-where `./CLI` represents the command being executed.
+where `./scripts/cli` represents the command being executed.
 
 The rest of this document includes notes about script setup and common patterns.
 It was decided to use `#!/bin/bash` as a standard scripting language to minimize dependencies.

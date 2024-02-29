@@ -46,15 +46,17 @@ What does it do?
 The following tools are require to interact with this repository.
 
 - java
+- docker
 
 To verify your setup, please execute the following command.
 
 ```shell
-./bin/setup
+./scripts/setup
 ```
 
 After running the `setup`-script,
-all other scripts in the `./bin` directory should be runnable.
+- all other scripts in the `./scripts` directory should be runnable, and
+- you should have a container running using the `-psql` suffix
 
 ## Running the service
 
@@ -63,18 +65,21 @@ Both flavors of execution have been scripted for your convenience.
 
 ### Local execution
 
+Running either command will get start your api, and you should be able to access it at:
+http://localhost:8080
+
 ```shell
-./bin/run [--local|-l]
+./scripts/run [-l|--local]
 ```
 
 ### Docker-ized execution
 
 ```shell
-./bin/run [--docker|-d]
+./scripts/run [-d|--docker]
 ```
 
 ## Next steps
 
-Please see the [CONTRIBUTING.md](./CONTRIBUTING.md) for more information about the process of
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for more information about the process of
 contributing code to the service and [DESIGN.md](./DESIGN.md) for a deeper understanding of the
 repository's structure and design patterns.

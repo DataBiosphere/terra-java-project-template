@@ -52,6 +52,9 @@ exec_local() {
   cd $ROOT_DIR
   $ROOT_DIR/gradlew bootRun
 }
+exec_docker() {
+  docker run --rm
+}
 [ "${run_locally}" = true ] && exec_local
 [ "${run_in_docker}" = true ] && echo "docker-me!"
 
