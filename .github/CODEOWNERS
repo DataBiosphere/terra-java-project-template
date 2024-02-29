@@ -6,7 +6,7 @@
 # the repo. Unless a later match takes precedence,
 # @team-members will be requested for review when someone
 # opens a pull request.
-*       @platform-foundation-codeowners
+* @DataBiosphere/platform-foundation-codeowners
 
 # ensure that this repo's permissions can only be changed by CODEOWNERS
-/.github/CODEOWNERS @platform-foundation-codeowners
+/.github/CODEOWNERS @DataBiosphere/platform-foundation-codeowners
