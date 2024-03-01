@@ -101,7 +101,7 @@ done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
-# process input arguments (if any)
+# process positional arguments (if any)
 ARG1=$1
 
 echo "Hello world!"

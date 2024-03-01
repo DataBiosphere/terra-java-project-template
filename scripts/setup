@@ -38,9 +38,7 @@ done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
-# process input arguments
-
-
+# process positional arguments (if any)
 log() {
   echo "[bin/setup] ${@}"
 }
