@@ -60,6 +60,6 @@ for tool in "${TOOLS[@]}"; do
 done
 echo ""
 
-log "setting up database"
-$(dirname $0)/setup-db ${clean_db_opt} start
+log "setting up service database"
+$(dirname $0)/run-db ${clean_db_opt} start
 log "... database setup COMPLETE"
