@@ -1,6 +1,5 @@
 #!/bin/bash
 # run the service in one of different deployment modes
-#set -e -x
 
 usage() {
   echo "usage: $0 [-h|--help] LOCATION"
@@ -43,9 +42,9 @@ LOCATION=${1}
 run_local() {
   APP_LOGS="${TMP_DIR}/application.log"
   cd "$ROOT_DIR"
-  ./gradlew bootRun | tee "${APP_LOGS}" &
-  echo "Application started. Logs are located at: ${APP_LOGS}"
-  #./gradlew --build-cache bootRun | tee application.log &
+  ./gradlew bootRun
+#  echo "Application started. Logs are located at: ${APP_LOGS}"
+#./gradlew --build-cache bootRun | tee application.log &
 }
 
 run_docker() {
