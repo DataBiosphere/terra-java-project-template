@@ -3,14 +3,20 @@
 set -e #-x
 
 usage() {
-  echo "usage: $0 [-h|--help] [compile|test|package|docker]"
+  echo "usage: $0 [-h|--help] COMMAND"
   echo ""
   echo "[-h|--help]      print this help text"
+  echo ""
+  echo "COMMAND is one of the following:"
+  echo "- compile        compile the project"
+  echo "- test           execute the tests"
+  echo "- build          the default build command"
+  echo "- docker         build a docker image"
 }
 
 # script variables and defaults
 ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
-build_cmd=build               # Overridden by -c or --cmd
+build_cmd=build
 DEBUG_OPTS=""
 
 
@@ -33,37 +39,52 @@ while getopts h-: OPT; do  # allow -h and -- "with arg"
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
-package() {
+
+# process positional arguments (if any)
+build_package() {
   cd ${ROOT_DIR}
-  ${ROOT_DIR}/gradlew
+  ./gradlew --build-cache build
+#./gradlew --build-cache build -x test
+#./gradlew --build-cache build -x test -x spotlessCheck
+#./gradlew --build-cache :service:build -x test
 }
 
+build_docker() {
+  GIT_REPO_NAME=$(basename ${ROOT_DIR})
+  GIT_SHA_SHORT=$(git rev-parse --short HEAD)
 
-# process input arguments
-CMD=$1
-echo "command: $CMD"
-case "$CMD" in
-  compile )      echo "compile" ;;
-  test )         echo "test" ;;
-  package )      echo "package" ;;
-  docker )       echo "docker" ;;
-  \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
-  * )            die "Missing or illegal build command: '${CMD}'" ;;            # bad long option
+  DOCKER_IMAGE_NAME=${NAME:-${GIT_REPO_NAME}}
+
+  cd ${ROOT_DIR}
+  ./gradlew --build-cache :service:jibDockerBuild \
+            --image=${DOCKER_IMAGE_NAME}:${GIT_SHA_SHORT} \
+            -Djib.console=plain
+
+  # the latest tag will allow `docker compose` to work correctly
+  docker image tag ${DOCKER_IMAGE_NAME}:${GIT_SHA_SHORT} ${DOCKER_IMAGE_NAME}:latest
+#./gradlew --build-cache :service:jibDockerBuild \
+}
+
+# process positional arguments (if any)
+COMMAND=$1
+
+case "$COMMAND" in
+  compile )      compile ;;
+  test )         test ;;
+  package )      build_package ;;
+  docker )       build_docker ;;
+  * )            die "Missing or invalid positional command: '${COMMAND}'" ;;
 esac
 
 
 
-./gradlew --build-cache :service:jibDockerBuild \
-./gradlew --build-cache build -x test
-./gradlew --build-cache build -x test -x spotlessCheck
-./gradlew --build-cache :service:build -x test
-./gradlew --build-cache bootRun | tee application.log &
-./gradlew --build-cache srcclr
-./gradlew --build-cache test jacocoTestReport
-./gradlew --build-cache runTest --args="suites/${{ needs.test-env.outputs.test-env }}/FullIntegration.json build/reports"
-./gradlew --build-cache runTest --args="suites/local/FullIntegration.json build/reports"
-./gradlew --build-cache uploadResults --args="CompressDirectoryToTerraKernelK8S.json build/reports"
+
+
+#./gradlew --build-cache srcclr
+#./gradlew --build-cache test jacocoTestReport
+#./gradlew --build-cache runTest --args="suites/${{ needs.test-env.outputs.test-env }}/FullIntegration.json build/reports"
+#./gradlew --build-cache runTest --args="suites/local/FullIntegration.json build/reports"
+#./gradlew --build-cache uploadResults --args="CompressDirectoryToTerraKernelK8S.json build/reports"
+
 #        run: ./gradlew --build-cache sonar
-
-
 

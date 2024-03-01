@@ -1,24 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # manage / interact with postgres container with initial repo setup
 
 usage() {
-    echo "Usage: $0 [-h|--help] start|stop|shell"
-    exit 1
+    echo "Usage: $0 [--clean-db] [-h|--help] COMMAND"
+    echo ""
+    echo "[--clean-db]     clean the database"
+    echo "[-h|--help]      print this help text"
+    echo ""
+    echo "COMMAND is one of:"
+    echo "- start          start a local database server"
+    echo "- stop           stop the local database server"
+    echo "- shell          connect to the local database server"
 }
 
 # script variables and defaults
-POSTGRES_VERSION=14
-POSTGRES_PORT=${2:-"5432"}
+ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
+TMP_DIR=${TMP_DIR:-${ROOT_DIR}/build/tmp}
+
 
 # these values are currently shared in other scripts
 # init-db/postgres-init.sql
 # service/src/main/resources/application.yml
-DATABASE_NAME=javatemplate_db
-DATABASE_USER=dbuser
-DATABASE_USER_PASSWORD=dbpwd
+DATABASE_NAME=${DATABASE_NAME:-javatemplate_db}
+DATABASE_USER=${DATABASE_USER:-dbuser}
 
-CONTAINER_NAME=javatemplate-postgres
-COMMAND=$1
+clean_db=false
 
 
 # process command-line options (if any)
@@ -33,6 +39,7 @@ while getopts h-: OPT; do  # allow -h and -- "with arg"
     OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
   fi
   case "$OPT" in
+    clean-db )     clean_db=true ;;
     h | help )     usage; exit 0 ;;
     \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
     * )            die "Illegal option --$OPT" ;;            # bad long option
@@ -41,45 +48,33 @@ done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
+# process positional arguments (if any)
+COMMAND=$1
+
+remove_database() {
+  if [ "$clean_db" = "true" ]; then
+    echo "erasing existing database state"
+    rm -r $TMP_DIR/postgres-data
+  fi
+}
+
 start() {
-    echo "attempting to remove old $CONTAINER_NAME container..."
-    docker rm -f $CONTAINER_NAME
-
-    # start up postgres
-    echo "starting up postgres container..."
-    BINDIR=$(dirname "$0")
-    docker create --name $CONTAINER_NAME --rm -e POSTGRES_PASSWORD=password -p "$POSTGRES_PORT:5432" postgres:$POSTGRES_VERSION -c listen_addresses='*'
-    docker cp $BINDIR/init-db/postgres-init.sql $CONTAINER_NAME:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-    docker start $CONTAINER_NAME
-
-    # validate postgres
-    echo "running postgres validation..."
-    docker exec $CONTAINER_NAME sh -c "$(cat $BINDIR/init-db/validate_psql.sh)"
-    if [ 0 -eq $? ]; then
-        echo "postgres validation succeeded."
-    else
-        echo "postgres validation failed."
-        exit 1
-    fi
+  stop
+  docker compose -f $ROOT_DIR/scripts/compose.yaml up database -d
 }
 
 stop() {
-    echo "Stopping docker $CONTAINER_NAME container..."
-    docker stop $CONTAINER_NAME || echo "postgres stop failed. container already stopped."
-    docker rm -v $CONTAINER_NAME
-    exit 0
+  docker compose -f $ROOT_DIR/scripts/compose.yaml down database
+  remove_database
 }
 
 shell() {
-  docker exec -it $CONTAINER_NAME psql -U $DATABASE_USER $DATABASE_NAME
+  docker compose -f $ROOT_DIR/scripts/compose.yaml exec database psql -U $DATABASE_USER $DATABASE_NAME
 }
 
-if [ "$COMMAND" = "start" ]; then
-    start
-elif [ "$COMMAND" = "stop" ]; then
-    stop
-elif [ "$COMMAND" = "shell" ]; then
-    shell
-else
-    usage
-fi
+case "$COMMAND" in
+  start )     start ;;
+  stop )      stop ;;
+  shell )     shell ;;
+  *     )     usage ;;
+esac

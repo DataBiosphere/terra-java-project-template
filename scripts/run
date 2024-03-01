@@ -1,35 +1,28 @@
 #!/bin/bash
-set -e -x
-# run the service in one of two modes, either
-# local-y or in a docker container
-
-# this script is here to help get you started
-# ACTIONS:
-# - update usage() below
-# - update/remove script variable defaults,
-# - update `getopts` argument
-#   (currently `ab:ch-:`, you'll want to delete `ab:c` and leave the rest),
-# - update/delete these comments, and
-# - happy scripting!
+# run the service in one of different deployment modes
+#set -e -x
 
 usage() {
-  echo "usage: $0 [-l|--local] [-d|--docker] [-h|--help]"
-  echo "[-l|--local]     run the service locally"
-  echo "[-d|--docker]    run the service in a docker image"
+  echo "usage: $0 [-h|--help] LOCATION"
+  echo ""
   echo "[-h|--help]      print this help text"
+  echo ""
+  echo "LOCATION is one of:"
+  echo "- local            run as a local process"
+  echo "- docker           run in a docker container"
 }
 
 # script variables and defaults
+LOCATION=${1}
 ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
-run_locally=false               # Overridden by -l or --local
-run_in_docker=false             # Overridden by -d or --docker
+TMP_DIR=${TMP_DIR:-${ROOT_DIR}/build/tmp}
 
 
 # process command-line options (if any)
 die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
-while getopts dl-: OPT; do
+while getopts h-: OPT; do
   # support long options: https://stackoverflow.com/a/28466267/519360
   if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
     OPT="${OPTARG%%=*}"       # extract long option name
@@ -37,8 +30,6 @@ while getopts dl-: OPT; do
     OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
   fi
   case "$OPT" in
-    l | local )    run_locally=true ;;
-    d | docker )   run_in_docker=true ;;
     h | help )     usage; exit 0 ;;
     \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
     * )            die "Illegal option --$OPT" ;;            # bad long option
@@ -47,14 +38,22 @@ done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
-# process input arguments (if any)
-exec_local() {
+# process positional arguments (if any)
+run_local() {
+  APP_LOGS=${TMP_DIR}/application.log
   cd $ROOT_DIR
-  $ROOT_DIR/gradlew bootRun
+  $ROOT_DIR/gradlew bootRun | tee ${APP_LOGS} &
+  echo "Application started. Logs are located at: ${APP_LOGS}"
+  #./gradlew --build-cache bootRun | tee application.log &
 }
-exec_docker() {
-  docker run --rm
-}
-[ "${run_locally}" = true ] && exec_local
-[ "${run_in_docker}" = true ] && echo "docker-me!"
 
+run_docker() {
+  $ROOT_DIR/scripts/build docker
+  docker compose -f $ROOT_DIR/scripts/compose.yaml up service -d
+}
+
+case "$LOCATION" in
+  local )     run_local;;
+  docker )    run_docker;;
+  * )         usage; exit 2;
+esac

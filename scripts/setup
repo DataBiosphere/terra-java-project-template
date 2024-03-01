@@ -4,8 +4,9 @@
 # - setting up a database environment locally for you to use
 
 usage() {
-  echo "usage: $0 [-h|--help]"
+  echo "usage: $0 [--clean-db] [-h|--help]"
   echo ""
+  echo "[--clean-db]     clean the database"
   echo "[-h|--help]      print this help text"
 }
 
@@ -13,6 +14,7 @@ usage() {
 # the list of tools required to be installed to interact with this repo
 # this is meant to verify what is also in the ./README.md#environment-setup section
 TOOLS=(java docker)
+clean_db_opt=""
 
 
 # process command-line options (if any)
@@ -27,6 +29,7 @@ while getopts h-: OPT; do  # allow -h and -- "with arg"
     OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
   fi
   case "$OPT" in
+    clean-db )     clean_db_opt="--clean-db" ;;
     h | help )     usage; exit 0 ;;
     \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
     * )            die "Illegal option --$OPT" ;;            # bad long option
@@ -58,5 +61,5 @@ done
 echo ""
 
 log "setting up database"
-$(dirname $0)/setup-db start
+$(dirname $0)/setup-db ${clean_db_opt} start
 log "... database setup COMPLETE"
