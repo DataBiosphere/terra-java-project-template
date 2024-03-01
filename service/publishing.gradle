@@ -28,6 +28,7 @@ jib {
         paths = [file(jibExtraDirectory)]
     }
     container {
+        creationTime = 'USE_CURRENT_TIMESTAMP'
         filesModificationTime = ZonedDateTime.now().toString() // to prevent ui caching
         mainClass = 'bio.terra.javatemplate.App'
         jvmFlags = [
