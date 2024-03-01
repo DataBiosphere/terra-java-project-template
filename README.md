@@ -69,13 +69,13 @@ Running either command will get start your api, and you should be able to access
 http://localhost:8080
 
 ```shell
-./scripts/run [-l|--local]
+./scripts/run local
 ```
 
 ### Docker-ized execution
 
 ```shell
-./scripts/run [-d|--docker]
+./scripts/run docker
 ```
 
 ## Next steps
