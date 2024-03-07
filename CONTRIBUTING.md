@@ -1,7 +1,8 @@
 # CONTRIBUTING
 
 > **_NOTE:_**
-> For compliance reasons, all pull requests must be submitted with a Jira ID as a part of the pull request.
+> For compliance reasons, all pull requests must be submitted with a Jira ID as a part of the pull
+> request.
 >
 > You should include the Jira ID near the beginning of the title for better readability.
 >
@@ -60,4 +61,11 @@ Once you have
 
 ## Frequently Asked Questions (FAQ)
 
-##
+### Additional questions
+
+Doug Voet created this repository, based in part on other Terra projects
+like [Workspace data service](https://github.com/DataBiosphere/terra-workspace-data-service)
+and [Terra data catalog](https://github.com/DataBiosphere/terra-data-catalog).
+
+Additional questions can be directed to
+the [#dsp-engineering](https://broadinstitute.slack.com/archives/C1C22V6FN/).
