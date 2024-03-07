@@ -7,6 +7,3 @@
 # @team-members will be requested for review when someone
 # opens a pull request.
 * @DataBiosphere/platform-foundation-codeowners
-
-# ensure that this repo's permissions can only be changed by CODEOWNERS
-/.github/CODEOWNERS @DataBiosphere/platform-foundation-codeowners

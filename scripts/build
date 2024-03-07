@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # execute all of the steps necessary to build the project
 
 usage() {

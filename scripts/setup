@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # this shell script is responsible for:
 # - making sure your environment is setup, and
 # - setting up a database environment locally for you to use
+set -e
 
 usage() {
   echo "usage: $0 [--clean-db] [-h|--help]"
@@ -13,6 +14,11 @@ usage() {
 # script variables and defaults
 # the list of tools required to be installed to interact with this repo
 # this is meant to verify what is also in the ./README.md#environment-setup section
+ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
+SCRIPTS_DIR=${SCRIPTS_DIR:-${ROOT_DIR}/scripts}
+TMP_DIR=${TMP_DIR:-${ROOT_DIR}/build/tmp}
+
+
 TOOLS=(java docker)
 clean_db_opt=""
 
@@ -39,8 +45,10 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
 # process positional arguments (if any)
+
+MSG_PREFIX="[$(basename $SCRIPTS_DIR)/$(basename $0)]"
 log() {
-  echo "[bin/setup] ${@}"
+  echo "$MSG_PREFIX ${@}"
 }
 
 verify_tool() {

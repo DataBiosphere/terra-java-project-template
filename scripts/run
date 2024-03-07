@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run the service in one of different deployment modes
+set -e
 
 usage() {
   echo "usage: $0 [-h|--help] LOCATION"

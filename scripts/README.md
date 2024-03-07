@@ -11,7 +11,8 @@ Each of the files in this directory follow a common pattern:
 where `./scripts/cli` represents the command being executed.
 
 The rest of this document includes notes about script setup and common patterns.
-It was decided to use `#!/bin/bash` as a standard scripting language to minimize dependencies.
+It was decided to use `#!/usr/bin/env bash` as a standard scripting language to minimize
+dependencies.
 
 Please see
 [The Broad's repo guidelines for automation](https://broadworkbench.atlassian.net/wiki/spaces/TLR/pages/2952298505/GitHub+Repo+Standards#Repository-automation-standards)
@@ -33,7 +34,8 @@ The quick summary for using this approach:
   - a list of short option characters to look for
   - if your option requires a value, it must be followed by a `:`
   - if you are supporting `--long-names`, the `-:` must be included
-- `die` and `needs_arg` are convenience methods for killing your script and verifying that an long-name option was passed
+- `die` and `needs_arg` are convenience methods for killing your script and verifying that an
+  long-name option was passed
 
 **SUPPORTED** option syntaxes are:
 
@@ -53,7 +55,7 @@ The quick summary for using this approach:
 Please copy-and-paste the following into your script to get you started.
 
 ```shell
-#!/bin/bash
+#!/usr/bin/env bash
 # this script is here to help get you started
 # ACTIONS:
 # - update usage() below

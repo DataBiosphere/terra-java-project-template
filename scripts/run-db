@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # manage / interact with postgres container with initial repo setup
 
 usage() {
