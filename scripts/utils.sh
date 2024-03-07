@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
+# To use these utilities you can source this file in your script
+# ie. source scripts/utils.sh
+
 # Basic logging lib
 
 # ERROR = 0
 # INFO = 1
 # DEBUG = 2
+
+
 declare -i desired_log_level=2
 
+# Usage: log_debug "your message"
 log_debug() { _log_execute 'DEBUG' "$1"; }
 log_info() { _log_execute 'INFO' "$1"; }
 log_err() { _log_execute 'ERROR' "$1"; }
