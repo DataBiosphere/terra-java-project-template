@@ -21,6 +21,10 @@ sequenceDiagram
   C ->> T: return JSON
 ```
 
+Transactions are extremely important in ensuring API consistency, especially across service
+boundaries. Please be sure to read more about transactions and how to use them with this
+architecture in [./transactions](./transactions.md)
+
 ## Controller
 
 Controllers are the api entry point to the

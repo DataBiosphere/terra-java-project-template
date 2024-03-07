@@ -1,4 +1,4 @@
-## Transaction barriers
+# Transactions
 
 Transactions are tricky, it is best not to have to think about them all the time.
 Therefore, it is beneficial to have a consistent place in your code flow where transactions
@@ -12,7 +12,7 @@ rollbacks and retries.
 If transactions begin too late in the code flow then you might as well turn on auto-commit.
 Essentially the value of transactions disappear because you can't do more than one thing atomically.
 
-# Transaction Implementation with Spring
+## Transaction implementation with Spring
 
 Transaction management in Spring starts with an annotation on a method which tells Spring that the
 entire method should be wrapped in a transaction. But how does Spring do this? From the caller's
@@ -117,7 +117,7 @@ This code keeps one class but is written so Spring injects a self reference. `th
 from `self`, the former is naked and the latter is clothed in a Proxy. But it is easy to lose track
 of why one should use `this` vs. `self` (not everyone is going to read this).
 
-# Transaction Barrier in the Service Layer
+## Transaction Barrier in the Service Layer
 
 This all boils down to transactions are important and have pitfalls. One thought is to put the
 transaction boundary at the DAO layer since they should be self-contained. But this can lead to
@@ -126,7 +126,7 @@ where the state being stored is simple. More complicated state argues for transa
 Service Layer. But then care is required to structure Service classes so that it is easy to do the
 right thing.
 
-# Transactions with Terra Common Library (TCL)
+## Transactions with terra-common-library (TCL)
 
 TCL provides 2 handy annotations `@ReadTransaction` and `@WriteTransaction`. These go above and
 beyond the Spring provided `@Transactional` annotation by setting the isolation level
