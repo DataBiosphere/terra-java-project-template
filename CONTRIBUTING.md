@@ -26,22 +26,22 @@ there are a series of scripts available in the `./scripts` directory.
 
 ```mermaid
 flowchart LR
-  e[[setup]]
-  v[develop]
-  e --> v
-  rc[[run local]]
-  v --> rc
-  rc -- " integration
-  test " --> rc
-  b[[build]]
+   e[[setup]]
+   v[develop]
+   e --> v
+   rc[[run local]]
+   v --> rc
+   b[[build]]
 
-  subgraph docker / k8s
-    rd[[run docker]]
-    rd -- " integration
-    test " --> rd
-  end
-  b --> rd
-  v -- lint/test --> b
+   subgraph docker / k8s
+      rd[[run docker]]
+   end
+   b --> rd
+   v -- lint / test --> b
+
+  ri[[run integ]]
+  ri --> rc
+  ri --> rd
 ```
 
 The double walled boxes represent scripts that are available in the `./scripts` directory.
@@ -63,7 +63,7 @@ IntelliJ will detect that this is a `gradle`-based project and start compiling y
 
 ## Frequently Asked Questions (FAQ)
 
-(build out this section based on common questions)
+(build out this section based on questions asked of the team)
 
 ## Additional questions
 
