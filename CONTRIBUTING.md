@@ -15,45 +15,44 @@
 > `[WM-1997] [WM-2002] [WM-2005]: fix for many bugs with the same root cause`
 >
 
+This document assumes you've completed the steps located in [README.md](./README.md) regarding setup
+and running the service. If you haven't completed those steps yet, please go back and make sure you
+can run the service.
+
 ## Developer convenience scripts
 
 To help accelerate interacting with this repo,
-there are a series of scripts available in the `./bin` directory.
-
-Please refer to the [README.md in that directory](./bin/README.md)
-for more information on those scripts.
-
+there are a series of scripts available in the `./scripts` directory.
 
 ```mermaid
----
-title: SDLC - path to prod
----
 flowchart LR
+  e[[setup]]
+  v[develop]
+  e --> v
+  rc[[run local]]
+  v --> rc
+  rc -- " integration
+  test " --> rc
 
-e[[setup]]
-v[develop]
-e-->v
+  subgraph docker / k8s
+    b[[build]]
+    rd[[run docker]]
 
-rv[[run-local]]
-v-->rv
+    b --> rd
 
-subgraph docker / k8s
-b[[build]]
-r[[run-image]]
-
-b-->r
-
-p[[publish]]
-b--"integration
-test"-->p
-end
-v--lint/test-->b
-
-d[[deploy]]
-p-->d
+    rd -- " integration
+    test " --> rd
+  end
+  v -- lint/test --> b
 ```
 
+The double walled boxes represent scripts that are available in the `./scripts` directory.
+Each script is outfitted with a help and usage guide and are tied into the build process to ensure the continue to run successfully.
+
 ## Developing
+
+This document assumes you've completed the steps located in [README.md](./README.md) regarding setup
+and running the service.
 
 ### Setting up IntelliJ IDEA
 
