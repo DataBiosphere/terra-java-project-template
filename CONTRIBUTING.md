@@ -15,9 +15,19 @@
 > `[WM-1997] [WM-2002] [WM-2005]: fix for many bugs with the same root cause`
 >
 
-This document assumes you've completed the steps located in [README.md](./README.md)
-regarding `setup` and `run`-ning the service. If you haven't completed those steps yet, please go
-back and make sure you can successfully run the service from your device.
+This section describes the steps necessary to finish setting up and contributing to this repo. If
+you would like more information about the design and reasons "why" this repo is structured like it
+is, please continue reading in the [DESIGN.md](./DESIGN.md)-document located in this directory.
+
+This document assumes you've completed the steps located
+in [Environment setup](./README.md#environment-setup) for how to `setup` and `run` the service.
+If you haven't completed those steps yet, please go back and make sure you can successfully run the
+service from your device.
+
+If you have questions or run into issues, please see
+the [Frequently Asked Questions](#frequently-asked-questions-faq) section in this document. If your
+question is not answered there, additional help resources can be found at the bottom of this
+document.
 
 ## Developer convenience scripts
 
@@ -46,7 +56,7 @@ flowchart LR
 The double walled boxes represent scripts that are available in the `./scripts` directory.
 Each script is outfitted with a help and usage guide, and the scripts are tied into the build
 process to ensure they continue to run successfully. For more information about the scripts, please
-see the [README.md](./scripts/README.md) located in that directory.
+see the [./scripts/README.md](./scripts/README.md).
 
 ## Developing
 
