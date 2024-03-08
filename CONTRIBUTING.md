@@ -26,19 +26,18 @@ there are a series of scripts available in the `./scripts` directory.
 
 ```mermaid
 flowchart LR
-   e[[setup]]
-   v[develop]
-   e --> v
-   rc[[run local]]
-   v --> rc
-   b[[build]]
+  e[[setup]]
+  v[develop]
+  e --> v
+  rc[[run local]]
+  v --> rc
+  b[[build]]
 
-   subgraph docker / k8s
-      rd[[run docker]]
-   end
-   b --> rd
-   v -- lint / test --> b
-
+  subgraph docker / k8s
+    rd[[run docker]]
+  end
+  b --> rd
+  v -- lint / test --> b
   ri[[run integ]]
   ri --> rc
   ri --> rd
@@ -46,7 +45,8 @@ flowchart LR
 
 The double walled boxes represent scripts that are available in the `./scripts` directory.
 Each script is outfitted with a help and usage guide, and the scripts are tied into the build
-process to ensure they continue to run successfully.
+process to ensure they continue to run successfully. For more information about the scripts, please
+see the [README.md](./scripts/README.md) located in that directory.
 
 ## Developing
 
