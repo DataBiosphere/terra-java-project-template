@@ -50,10 +50,18 @@ The quick summary for using this approach:
   - the caveat is that `getopts` assumes the `OPTARG` is `-long-name`,
     akin to the `-aoption-value` assignment above.
 
-## `utils.sh`
+## `init.sh`
+
+We use this entrypoint for all common `env`-ironment variables and `scripts/`-based set up.
+
+### `utils.sh`
 
 This script serves as a library of tools that can be used in shell scripts to help with logging.
 See [./scripts/utils.sh](./utils.sh) for usage and more information.
+
+These utilities are loaded via `init.sh`.
+
+
 
 ## Sample hello-world script
 
@@ -80,6 +88,7 @@ usage() {
 }
 
 # script variables and defaults
+# replace this and include it with a call to `init.sh` (if one exists)
 source $(dirname $0)/utils.sh
 
 bravo="$HOME/Downloads"       # Overridden by the value set by -b or --bravo
