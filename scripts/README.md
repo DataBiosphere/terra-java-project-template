@@ -50,6 +50,11 @@ The quick summary for using this approach:
   - the caveat is that `getopts` assumes the `OPTARG` is `-long-name`,
     akin to the `-aoption-value` assignment above.
 
+## `utils.sh`
+
+This script serves as a library of tools that can be used in shell scripts to help with logging.
+See [./scripts/utils.sh](./utils.sh) for usage and more information.
+
 ## Sample hello-world script
 
 Please copy-and-paste the following into your script to get you started.
@@ -75,13 +80,15 @@ usage() {
 }
 
 # script variables and defaults
+source $(dirname $0)/utils.sh
+
 bravo="$HOME/Downloads"       # Overridden by the value set by -b or --bravo
 charlie_default="brown"       # Only set given -c or --charlie without an arg
 ARG1=""
 
 
 # process command-line options (if any)
-die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
+die() { log_error "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
 while getopts ab:ch-: OPT; do  # allow -a, -b with arg, -c, and -- "with arg"
@@ -106,9 +113,9 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 # process positional arguments (if any)
 ARG1=$1
 
-echo "Hello world!"
-echo "alpha:   ${alpha}"
-echo "bravo:   ${bravo}"
-echo "charlie: ${charlie}"
-echo "ARG1:    ${ARG1}"
+log_info "Hello world!"
+log_info "alpha:   ${alpha}"
+log_info "bravo:   ${bravo}"
+log_info "charlie: ${charlie}"
+log_info "ARG1:    ${ARG1}"
 ```

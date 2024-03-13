@@ -13,12 +13,14 @@ usage() {
 }
 
 # script variables and defaults
+source $(dirname $0)/utils.sh
+
 ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
 DEBUG_OPTS=""
 
 
 # process command-line options (if any)
-die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
+die() { log_error "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
 while getopts h-: OPT; do  # allow -h and -- "with arg"
@@ -41,7 +43,7 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 COMMAND=$1
 
 run_tests() {
-  echo "still working on testing"
+  log_info "still working on testing"
 
 #./gradlew --build-cache srcclr
 #./gradlew --build-cache test jacocoTestReport

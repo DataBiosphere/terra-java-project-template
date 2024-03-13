@@ -12,6 +12,8 @@ usage() {
 }
 
 # script variables and defaults
+source $(dirname $0)/utils.sh
+
 # the list of tools required to be installed to interact with this repo
 # this is meant to verify what is also in the ./README.md#environment-setup section
 ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
@@ -24,7 +26,7 @@ clean_db_opt=""
 
 
 # process command-line options (if any)
-die() { echo "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
+die() { log_error "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
 while getopts h-: OPT; do  # allow -h and -- "with arg"
@@ -48,7 +50,7 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 MSG_PREFIX="[$(basename $SCRIPTS_DIR)/$(basename $0)]"
 log() {
-  echo "$MSG_PREFIX ${@}"
+  log_info "$MSG_PREFIX ${@}"
 }
 
 verify_tool() {
@@ -64,7 +66,7 @@ log "verifying required tools are installed"
 for tool in "${TOOLS[@]}"; do
   verify_tool $tool
 done
-echo ""
+log_info ""
 
 log "setting up service database"
 $(dirname $0)/run-db ${clean_db_opt} start

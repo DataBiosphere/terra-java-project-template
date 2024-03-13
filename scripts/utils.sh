@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
-
 # To use these utilities you can source this file in your script
 # ie. source scripts/utils.sh
+#
+# Basic logging library.
+# Usage:
+# log_debug "your message"
+# log_info "your message"
+# log_error "your message"
+#
+# will produce:
+# 2024-03-17 01:23:45 [DEBUG] your message
+# 2024-03-17 01:23:45 [INFO] your message
+# 2024-03-17 01:23:45 [ERROR] your message
 
-# Basic logging lib
 
 # ERROR = 0
 # INFO = 1
 # DEBUG = 2
 
-
 declare -i desired_log_level=2
 
-# Usage: log_debug "your message"
 log_debug() { _log_execute 'DEBUG' "$1"; }
 log_info() { _log_execute 'INFO' "$1"; }
-log_err() { _log_execute 'ERROR' "$1"; }
+log_error() { _log_execute 'ERROR' "$1"; }
 
 _log_execute() {
     local -r log_message=$2
@@ -49,7 +56,7 @@ check_required_tools() {
   for tool in "${tools[@]}";
   do
     [[ $(type -P "$tool") ]] || {
-      log_err "$tool not found on PATH, please install $tool"
+      log_error "$tool not found on PATH, please install $tool"
       return 1;
     }
     log_debug "found $tool on PATH"
