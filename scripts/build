@@ -14,9 +14,7 @@ usage() {
 
 # script variables and defaults
 source $(dirname $0)/init.sh
-source $(dirname $0)/utils.sh
 
-ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
 DEBUG_OPTS=""
 
 

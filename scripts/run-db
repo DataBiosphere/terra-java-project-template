@@ -14,10 +14,7 @@ usage() {
 }
 
 # script variables and defaults
-source $(dirname $0)/utils.sh
-
-ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
-TMP_DIR=${TMP_DIR:-${ROOT_DIR}/build/tmp}
+source $(dirname $0)/init.sh
 
 
 # these values are currently shared in other scripts
