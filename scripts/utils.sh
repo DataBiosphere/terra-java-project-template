@@ -44,7 +44,7 @@ _log_execute() {
 
 _log_msg() {
     local -r timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-    echo "$timestamp [$2] $1"
+    printf '%s [%-5s] %s\n' "$timestamp" "$2" "$1"
 }
 
 # Helper function to check if required cli tools are installed
