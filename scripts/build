@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # execute all of the steps necessary to build the project
+set -e #-x
 
 usage() {
   echo "usage: $0 [-h|--help] COMMAND"
@@ -17,6 +18,7 @@ source $(dirname $0)/init.sh
 
 DEBUG_OPTS=""
 
+log_debug "before: $@"
 
 # process command-line options (if any)
 die() { log_error "$*" >&2; echo ""; usage; exit 2; }  # complain to STDERR and exit with error
@@ -40,6 +42,12 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 # process positional arguments (if any)
 COMMAND=$1
+shift 1
+
+# use all trailing arguments as caveats to BUILD command
+GRADLE_BUILD_OPTS=${GRADLE_BUILD_OPTS:-"$@"}
+log_debug "gradle build opts: ${GRADLE_BUILD_OPTS}"
+
 
 run_tests() {
   log_info "still working on testing"
@@ -53,9 +61,23 @@ run_tests() {
 #        run: ./gradlew --build-cache sonar
 }
 
+run_integration_tests() {
+  # NOTE: interesting - no integration-tests.yml have been triggered or run
+  # this is run via both:
+  # - ./github/workflows/build-and-test.yml
+  # - ./github/workflows/integration-tests.yml
+  #
+  # please see integration-tests.yml for more information re: inputs.environment and TEST_ENV
+  TEST_ENV=${TEST_ENV:-local}
+
+  cd "${ROOT_DIR}"
+  ./gradlew ${GRADLE_OPTS} runTest \
+    --args="suites/${TEST_ENV}/FullIntegration.json build/reports"
+}
+
 build_project() {
   cd "${ROOT_DIR}"
-  ./gradlew --build-cache build
+  ./gradlew ${GRADLE_OPTS} build ${GRADLE_BUILD_OPTS}
 #./gradlew --build-cache build -x test
 #./gradlew --build-cache build -x test -x spotlessCheck
 #./gradlew --build-cache :service:build -x test
@@ -66,22 +88,23 @@ build_docker() {
   GIT_SHA_SHORT=$(git rev-parse --short HEAD)
 
   DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME:-${GIT_REPO_NAME}}
-  NAME=${NAME:-"${DOCKER_IMAGE_NAME}:${GIT_SHA_SHORT}"}
+  DOCKER_IMAGE_NAME_AND_TAG=${DOCKER_IMAGE_NAME_AND_TAG:-"${DOCKER_IMAGE_NAME}:${GIT_SHA_SHORT}"}
 
   cd "${ROOT_DIR}"
-  ./gradlew --build-cache :service:jibDockerBuild \
-            --image="${NAME}" \
+  ./gradlew ${GRADLE_OPTS} :service:jibDockerBuild \
+            --image="${DOCKER_IMAGE_NAME_AND_TAG}" \
             -Djib.console=plain
 
   # the latest tag will allow `docker compose` to work correctly for developers
   if [ -z "$CI" ]; then
-    docker image tag "${DOCKER_IMAGE_NAME}:${GIT_SHA_SHORT}" "${DOCKER_IMAGE_NAME}:latest"
+    docker image tag "${DOCKER_IMAGE_NAME_AND_TAG}" "${DOCKER_IMAGE_NAME}:latest"
   fi
 #./gradlew --build-cache :service:jibDockerBuild \
 }
 
 case "$COMMAND" in
   test )         run_tests ;;
+  integration )  run_integration_tests ;;
   project )      build_project ;;
   docker )       build_docker ;;
   * )            die "Missing or invalid positional command: '${COMMAND}'" ;;

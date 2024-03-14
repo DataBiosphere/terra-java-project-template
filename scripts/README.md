@@ -34,7 +34,7 @@ The quick summary for using this approach:
   - a list of short option characters to look for
   - if your option requires a value, it must be followed by a `:`
   - if you are supporting `--long-names`, the `-:` must be included
-- `die` and `needs_arg` are convenience methods for killing your script and verifying that an
+- `die` and `needs_arg` are convenience methods for killing your script and verifying that a
   long-name option was passed
 
 **SUPPORTED** option syntaxes are:
@@ -60,8 +60,6 @@ This script serves as a library of tools that can be used in shell scripts to he
 See [./scripts/utils.sh](./utils.sh) for usage and more information.
 
 These utilities are loaded via `init.sh`.
-
-
 
 ## Sample hello-world script
 
