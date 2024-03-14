@@ -16,9 +16,7 @@ source $(dirname $0)/init.sh
 
 # the list of tools required to be installed to interact with this repo
 # this is meant to verify what is also in the ./README.md#environment-setup section
-ROOT_DIR="$(cd "$(dirname "$0")/.."; pwd)"
-
-TOOLS=(java docker)
+TOOLS=(java docker vault)
 clean_db_opt=""
 
 

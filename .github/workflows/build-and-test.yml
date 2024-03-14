@@ -119,7 +119,8 @@ jobs:
           psql -h localhost -U postgres -f ./scripts/init-db/postgres-init.sql
 
       - name: Test with coverage
-        run: ./gradlew --build-cache test jacocoTestReport
+        run: |
+          ./scripts/run test
 
       # Run the Sonar scan after `gradle test` to include code coverage data in its report.
 #      - name: Sonar scan
@@ -178,7 +179,7 @@ jobs:
 
       - name: Run the integration test suite
         run: |
-          ./scripts/build integration
+          ./scripts/run integration
 
       - name: Archive logs
         id: archive_logs

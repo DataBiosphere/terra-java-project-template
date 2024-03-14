@@ -39,6 +39,33 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 # process positional arguments (if any)
 LOCATION=${1}
 
+run_tests() {
+  cd "${ROOT_DIR}"
+  ./gradlew ${GRADLE_OPTS} test jacocoTestReport
+
+#./gradlew --build-cache srcclr
+}
+
+run_integration_tests() {
+  # NOTE: interesting - no integration-tests.yml have been triggered or run
+  # this is run via both:
+  # - ./github/workflows/build-and-test.yml
+  # - ./github/workflows/integration-tests.yml
+  #
+  # please see integration-tests.yml for more information re: inputs.environment and TEST_ENV
+  TEST_ENV=${TEST_ENV:-local}
+
+  cd "${ROOT_DIR}"
+  ./gradlew ${GRADLE_OPTS} runTest \
+    --args="suites/${TEST_ENV}/FullIntegration.json build/reports"
+
+  # for developer runs, build an integration report locally
+  if [ -z "$CI" ]; then
+    echo ""
+  fi
+}
+
+
 run_local() {
   APP_LOGS="${TMP_DIR}/application.log"
   cd "$ROOT_DIR"
@@ -53,7 +80,9 @@ run_docker() {
 }
 
 case "$LOCATION" in
-  local )     run_local;;
-  docker )    run_docker;;
-  * )         usage; exit 2;
+  test )         run_tests ;;
+  integration )  run_integration_tests ;;
+  local )        run_local;;
+  docker )       run_docker;;
+  * )            usage; exit 2;
 esac

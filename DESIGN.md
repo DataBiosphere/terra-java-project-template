@@ -34,7 +34,8 @@ Local service directory structure supports this structure:
 Service api interfaces are generated via gradle's processing of
 the [`openapi.yml` document](./service/src/main/resources/api/openapi.yml)
 
-For more information about the `service/` design, please refer to [docs/DESIGN-service.md](./docs/DESIGN-service.md)
+For more information about the `service/` design, please refer
+to [docs/DESIGN-service.md](./docs/DESIGN-service.md)
 
 ## client/
 
@@ -44,7 +45,9 @@ based on the same `openapi.yml` file used to generate the `service/` api-endpoin
 
 ## integration/
 
-Integration tests ...
+Integration tests are designed to be run using
+the [`terra-test-runner`](https://github.com/databiosphere/terra-test-runner).
+For more information about using the `terra-test-runner` infrastructure, please refer to that repo.
 
 ## scripts/
 

@@ -49,32 +49,6 @@ GRADLE_BUILD_OPTS=${GRADLE_BUILD_OPTS:-"$@"}
 log_debug "gradle build opts: ${GRADLE_BUILD_OPTS}"
 
 
-run_tests() {
-  log_info "still working on testing"
-
-#./gradlew --build-cache srcclr
-#./gradlew --build-cache test jacocoTestReport
-#./gradlew --build-cache runTest --args="suites/${{ needs.test-env.outputs.test-env }}/FullIntegration.json build/reports"
-#./gradlew --build-cache runTest --args="suites/local/FullIntegration.json build/reports"
-#./gradlew --build-cache uploadResults --args="CompressDirectoryToTerraKernelK8S.json build/reports"
-
-#        run: ./gradlew --build-cache sonar
-}
-
-run_integration_tests() {
-  # NOTE: interesting - no integration-tests.yml have been triggered or run
-  # this is run via both:
-  # - ./github/workflows/build-and-test.yml
-  # - ./github/workflows/integration-tests.yml
-  #
-  # please see integration-tests.yml for more information re: inputs.environment and TEST_ENV
-  TEST_ENV=${TEST_ENV:-local}
-
-  cd "${ROOT_DIR}"
-  ./gradlew ${GRADLE_OPTS} runTest \
-    --args="suites/${TEST_ENV}/FullIntegration.json build/reports"
-}
-
 build_project() {
   cd "${ROOT_DIR}"
   ./gradlew ${GRADLE_OPTS} build ${GRADLE_BUILD_OPTS}
@@ -103,8 +77,6 @@ build_docker() {
 }
 
 case "$COMMAND" in
-  test )         run_tests ;;
-  integration )  run_integration_tests ;;
   project )      build_project ;;
   docker )       build_docker ;;
   * )            die "Missing or invalid positional command: '${COMMAND}'" ;;

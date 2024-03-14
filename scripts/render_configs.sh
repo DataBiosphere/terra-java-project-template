@@ -4,7 +4,6 @@ ENV=${1:-dev}
 VAULT_TOKEN=${2:-$(cat "$HOME"/.vault-token)}
 
 VAULT_ADDR="https://clotho.broadinstitute.org:8200"
-
 VAULT_COMMAND="vault read"
 
 # use SERVICE_OUTPUT_LOCATION to add any service specific secrets
@@ -17,6 +16,6 @@ fi
 
 $VAULT_COMMAND -field=data -format=json "secret/dsde/firecloud/$ENV/common/firecloud-account.json" >"$INTEGRATION_OUTPUT_LOCATION/user-delegated-sa.json"
 
-# We use the perf testrunner account in all environments.
+# we use the perf testrunner account in all environments
 PERF_VAULT_PATH="secret/dsde/terra/kernel/perf/common"
 $VAULT_COMMAND -field=key "$PERF_VAULT_PATH/testrunner/testrunner-sa" | base64 -d > "$INTEGRATION_OUTPUT_LOCATION/testrunner-perf.json"
