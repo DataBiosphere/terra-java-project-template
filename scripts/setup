@@ -2,13 +2,15 @@
 # this shell script is responsible for:
 # - making sure your environment is setup, and
 # - setting up a database environment locally for you to use
-set -e
+set -e #-x
 
 usage() {
-  echo "usage: $0 [--clean-db] [-h|--help]"
-  echo ""
-  echo "[--clean-db]     clean the database"
-  echo "[-h|--help]      print this help text"
+  cat <<-'EOF'
+usage: $0 [-c|--clean-db] [-h|--help]
+
+[-c|--clean-db]       clean the database
+[-h|--help]           print this help text
+EOF
 }
 
 # script variables and defaults
@@ -32,10 +34,10 @@ while getopts h-: OPT; do  # allow -h and -- "with arg"
     OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
   fi
   case "$OPT" in
-    clean-db )     clean_db_opt="--clean-db" ;;
-    h | help )     usage; exit 0 ;;
-    \? )           usage; exit 2 ;;  # bad short option (error reported via getopts)
-    * )            die "Illegal option --$OPT" ;;            # bad long option
+    c | clean-db )       clean_db_opt="--clean-db" ;;
+    h | help )           usage; exit 0 ;;
+    \? )                 usage; exit 2 ;;  # bad short option (error reported via getopts)
+    * )                  die "Illegal option --$OPT" ;;            # bad long option
   esac
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list

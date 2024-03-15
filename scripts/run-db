@@ -2,15 +2,17 @@
 # manage / interact with postgres container with initial repo setup
 
 usage() {
-    echo "Usage: $0 [--clean-db] [-h|--help] COMMAND"
-    echo ""
-    echo "[--clean-db]     clean the database"
-    echo "[-h|--help]      print this help text"
-    echo ""
-    echo "COMMAND is one of:"
-    echo "- start          start a local database server"
-    echo "- stop           stop the local database server"
-    echo "- shell          connect to the local database server"
+  cat <<-'EOF'
+usage: run-db [--clean-db] [-h|--help] COMMAND
+
+[--clean-db]       clean the database
+[-h|--help]        print this help text
+
+COMMAND is one of:"
+- start            start a local database server
+- stop             stop the local database server
+- shell            connect to the local database server
+EOF
 }
 
 # script variables and defaults
@@ -72,8 +74,8 @@ shell() {
 }
 
 case "$COMMAND" in
-  start )     start ;;
-  stop )      stop ;;
-  shell )     shell ;;
-  *     )     usage ;;
+  start )       start ;;
+  stop )        stop ;;
+  shell )       shell ;;
+  * )           usage ;;
 esac

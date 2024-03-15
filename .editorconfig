@@ -30,11 +30,11 @@ ij_java_names_count_to_use_import_on_demand = 1000
 ij_java_wrap_comments = true
 
 [*.md]
-trim_trailing_whitespace=false      # this allows for intentionally wrapping lines in .md
+# this allows for intentionally wrapping lines in .md
+trim_trailing_whitespace=false
 
 [*.py]
 indent_size = 4
 # black line length is 88, not PEP8's 79.
 max_line_length = 88
 ij_visual_guides = 88
-

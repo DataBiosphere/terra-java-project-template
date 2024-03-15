@@ -11,6 +11,6 @@ DEBUG_OPTS=""
 
 # for CI (in GitHub Actions (GHA), we want to enable different options)
 GRADLE_OPTS=${GRADLE_OPTS}
-if [ -z "$CI" ]; then
+if [ "$CI" == "true" ]; then
   GRADLE_OPTS="--build-cache"
 fi

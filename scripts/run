@@ -3,13 +3,18 @@
 set -e #-x
 
 usage() {
-  echo "usage: $0 [-h|--help] LOCATION"
-  echo ""
-  echo "[-h|--help]      print this help text"
-  echo ""
-  echo "LOCATION is one of:"
-  echo "- local            run as a local process"
-  echo "- docker           run in a docker container"
+  cat <<-'EOF'
+usage: run [-h|--help] RUNTYPE
+
+[-h|--help]       print this help text
+
+RUNTYPE is one of:
+- tests           run tests against repo
+- integ           run integration tests against running instance;
+                  either `local` or `docker`
+- local           run as a local terminal process
+- docker          run in a docker container
+EOF
 }
 
 # script variables and defaults
@@ -37,7 +42,7 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 
 
 # process positional arguments (if any)
-LOCATION=${1}
+RUNTYPE=${1}
 
 run_tests() {
   cd "${ROOT_DIR}"
@@ -65,13 +70,9 @@ run_integration_tests() {
   fi
 }
 
-
 run_local() {
-  APP_LOGS="${TMP_DIR}/application.log"
   cd "$ROOT_DIR"
   ./gradlew ${GRADLE_OPTS} bootRun
-#  echo "Application started. Logs are located at: ${APP_LOGS}"
-#./gradlew --build-cache bootRun | tee application.log &
 }
 
 run_docker() {
@@ -79,9 +80,9 @@ run_docker() {
   docker compose -f "$ROOT_DIR/scripts/compose.yaml" up service -d
 }
 
-case "$LOCATION" in
-  test )         run_tests ;;
-  integration )  run_integration_tests ;;
+case "$RUNTYPE" in
+  tests )        run_tests ;;
+  integ )        run_integration_tests ;;
   local )        run_local;;
   docker )       run_docker;;
   * )            usage; exit 2;

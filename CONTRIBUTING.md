@@ -39,18 +39,25 @@ flowchart LR
   e[[setup]]
   v[develop]
   e --> v
-  rc[[run local]]
-  v --> rc
-  b[[build]]
+
+  b[["build docker"]]
+
+  rt[[run tests]]
+  v --> rt
+  rt --> v
 
   subgraph docker / k8s
     rd[[run docker]]
   end
   b --> rd
   v -- lint / test --> b
+
   ri[[run integ]]
   ri --> rc
   ri --> rd
+
+  rc[[run local]]
+  v --> rc
 ```
 
 The double walled boxes represent scripts that are available in the `./scripts` directory.
