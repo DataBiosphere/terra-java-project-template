@@ -120,9 +120,9 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 # process positional arguments (if any)
 ARG1=$1
 
-log_info "Hello world!"
+log_error "Hello world!"
 log_info "alpha:   ${alpha}"
 log_info "bravo:   ${bravo}"
 log_info "charlie: ${charlie}"
-log_info "ARG1:    ${ARG1}"
+log_debug "ARG1:    ${ARG1}"
 ```

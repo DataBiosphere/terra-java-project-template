@@ -8,7 +8,7 @@ usage: run-db [--clean-db] [-h|--help] COMMAND
 [--clean-db]       clean the database
 [-h|--help]        print this help text
 
-COMMAND is one of:"
+COMMAND is one of:
 - start            start a local database server
 - stop             stop the local database server
 - shell            connect to the local database server
