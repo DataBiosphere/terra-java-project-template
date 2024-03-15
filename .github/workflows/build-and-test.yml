@@ -120,7 +120,7 @@ jobs:
 
       - name: Test with coverage
         run: |
-          ./scripts/run test
+          ./scripts/run tests
 
       # Run the Sonar scan after `gradle test` to include code coverage data in its report.
 #      - name: Sonar scan
