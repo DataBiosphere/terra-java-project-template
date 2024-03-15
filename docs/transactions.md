@@ -10,7 +10,7 @@ because there is are greater chances for transactions to collide leading to roll
 If transactions begin too late in the code flow then you might as well turn on auto-commit.
 Essentially the value of transactions disappear because you can't do more than one thing atomically.
 
-#Transaction Implementation with Spring
+# Transaction Implementation with Spring
 Transaction management in Spring starts with an annotation on a method which tells Spring that the entire
 method should be wrapped in a transaction. But how does Spring do this? From the caller's perspective,
 it is just calling a method on a java class. From the method's code perspective there's no special code.
