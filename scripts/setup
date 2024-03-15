@@ -50,19 +50,8 @@ log() {
   log_info "$MSG_PREFIX ${@}"
 }
 
-verify_tool() {
-  if ! command -v $1 &> /dev/null; then
-      log "'$1' could not be found"
-      exit 1
-  else
-    log "verified: ${@}"
-  fi
-}
-
 log "verifying required tools are installed"
-for tool in "${TOOLS[@]}"; do
-  verify_tool $tool
-done
+check_required_tools "${TOOLS[@]}" || exit 1;
 log_info ""
 
 log "setting up service database"
