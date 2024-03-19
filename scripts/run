@@ -10,7 +10,7 @@ usage: run [-h|--help] RUNTYPE
 
 RUNTYPE is one of:
 - tests           run tests against repo
-- integ           run integration tests against running instance;
+- integration     run integration tests against running instance;
                   either `local` or `docker`
 - local           run as a local terminal process
 - docker          run in a docker container
@@ -82,7 +82,7 @@ run_docker() {
 
 case "$RUNTYPE" in
   tests )        run_tests ;;
-  integ )        run_integration_tests ;;
+  integration )  run_integration_tests ;;
   local )        run_local;;
   docker )       run_docker;;
   * )            usage; exit 2;

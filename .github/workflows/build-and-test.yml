@@ -179,7 +179,7 @@ jobs:
 
       - name: Run the integration test suite
         run: |
-          ./scripts/run integ
+          ./scripts/run integration
 
       - name: Archive logs
         id: archive_logs

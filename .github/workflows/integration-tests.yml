@@ -113,7 +113,7 @@ jobs:
       - name: Run integration test suite
         run: |
           TEST_ENV=${{ needs.test-env.outputs.test-env }} \
-          ./scripts/run integ
+          ./scripts/run integration
 
       - name: Upload Test Reports for QA
         if: always()

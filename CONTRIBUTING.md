@@ -52,7 +52,7 @@ flowchart LR
   b --> rd
   v -- lint / test --> b
 
-  ri[[run integ]]
+  ri[[run integration]]
   ri --> rc
   ri --> rd
 
