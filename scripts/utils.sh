@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# NOTE: if you modify this file in your respective repo, please pay-it-forward and
+# consider updating the terra-java-project-template/scripts/utils.sh
+#
 # To use these utilities you can source this file in your script
 # ie. source scripts/utils.sh
 #
