@@ -29,7 +29,7 @@ jobs:
           cache: 'gradle'
 
       - name: Build all projects without running tests
-        run: ./gradlew --build-cache build -x test
+        run: ./scripts/build --skip-tests project
 
   jib:
     needs: [ build ]
@@ -53,9 +53,8 @@ jobs:
 
       - name: Build image locally with jib
         run: |
-          ./gradlew --build-cache :service:jibDockerBuild \
-            --image=${{ steps.image-name.outputs.name }} \
-            -Djib.console=plain
+          DOCKER_IMAGE_NAME_AND_TAG=${{ steps.image-name.outputs.name }} \
+          ./scripts/build docker
 
   dispatch-trivy:
     needs: [ build ]
@@ -117,10 +116,11 @@ jobs:
           PGPASSWORD: postgres
         run: |
           pg_isready -h localhost -t 10
-          psql -h localhost -U postgres -f ./common/postgres-init.sql
+          psql -h localhost -U postgres -f ./scripts/init-db/postgres-init.sql
 
       - name: Test with coverage
-        run: ./gradlew --build-cache test jacocoTestReport
+        run: |
+          ./scripts/run tests
 
       # Run the Sonar scan after `gradle test` to include code coverage data in its report.
 #      - name: Sonar scan
@@ -154,7 +154,7 @@ jobs:
           PGPASSWORD: postgres
         run: |
           pg_isready -h localhost -t 10
-          psql -h localhost -U postgres -f ./common/postgres-init.sql
+          psql -h localhost -U postgres -f ./scripts/init-db/postgres-init.sql
 
       - name: Render GitHub Secrets
         run: |
@@ -162,7 +162,7 @@ jobs:
           echo "${{ secrets.PERF_TESTRUNNER_ACCOUNT_B64 }}" | base64 -d > "integration/src/main/resources/rendered/testrunner-perf.json"
 
       - name: Launch the background process for integration tests
-        run: ./gradlew --build-cache bootRun | tee application.log &
+        run: ./scripts/run local | tee application.log &
 
       - name: Wait for boot run to be ready
         run: |
@@ -178,7 +178,8 @@ jobs:
           fi
 
       - name: Run the integration test suite
-        run: ./gradlew --build-cache runTest --args="suites/local/FullIntegration.json build/reports"
+        run: |
+          ./scripts/run integration
 
       - name: Archive logs
         id: archive_logs
