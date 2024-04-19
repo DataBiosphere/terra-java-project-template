@@ -51,6 +51,6 @@ public class ExampleDao {
     var selectSql = "SELECT * FROM example WHERE user_id = " + userId;
     return Optional.ofNullable(
         DataAccessUtils.singleResult(
-            jdbcTemplate.query(selectSql, namedParameters, EXAMPLE_ROW_MAPPER)));
+            jdbcTemplate.query(selectSql, EXAMPLE_ROW_MAPPER)));
   }
 }
