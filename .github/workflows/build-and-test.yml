@@ -123,11 +123,11 @@ jobs:
           ./scripts/run tests
 
       # Run the Sonar scan after `gradle test` to include code coverage data in its report.
-#      - name: Sonar scan
-#        run: ./gradlew --build-cache sonar
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sonar scan
+        run: ./gradlew --build-cache sonar --info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   integration-tests:
     needs: [ build ]
