@@ -25,4 +25,9 @@ public class ExampleService {
   public Optional<Example> getExampleForUser(String userId) {
     return exampleDao.getExampleForUser(userId);
   }
+
+  @ReadTransaction
+  public Optional<Example> demoSqlInjectionVulnerability(String userId) {
+    return exampleDao.demoSqlInjectionVulnerability(userId);
+  }
 }
