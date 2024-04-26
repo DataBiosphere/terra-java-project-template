@@ -67,8 +67,8 @@ public class App {
 
   /**
    * This bean is used to resolve the location of the Thymeleaf templates that are used to generate
-   * the OpenAPI documentation. The default resolver is used to resolve the location of the
-   * Swagger UI index.html file in templates/.
+   * the OpenAPI documentation. The default resolver is used to resolve the location of the Swagger
+   * UI index.html file in templates/.
    */
   @Bean
   public ClassLoaderTemplateResolver secondaryTemplateResolver() {
