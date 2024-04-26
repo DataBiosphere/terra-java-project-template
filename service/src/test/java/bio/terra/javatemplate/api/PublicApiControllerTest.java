@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import bio.terra.javatemplate.config.OidcConfiguration;
 import bio.terra.javatemplate.config.VersionConfiguration;
 import bio.terra.javatemplate.controller.PublicApiController;
 import bio.terra.javatemplate.model.SystemStatus;
@@ -26,6 +27,8 @@ class PublicApiControllerTest {
   @MockBean private StatusService statusService;
 
   @MockBean private VersionConfiguration versionConfiguration;
+
+  @MockBean private OidcConfiguration oidcConfiguration;
 
   @Test
   void testStatus() throws Exception {
