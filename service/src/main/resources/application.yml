@@ -14,6 +14,9 @@ env:
     samplingRate: ${SAMPLING_PROBABILITY:0}
   sam:
     basePath: ${SAM_ADDRESS:https://sam.dsde-dev.broadinstitute.org}
+  oidc:
+    clientId: ${OIDC_CLIENT_ID:bbd07d43-01cb-4b69-8fd0-5746d9a5c9fe}
+    authorityEndpoint: ${OIDC_AUTHORITY_ENDPOINT:https://oauth-proxy.dsp-eng-tools.broadinstitute.org/b2c}
 
 # Below here is non-deployment-specific
 
@@ -53,7 +56,6 @@ spring:
           maxAge: 0
           mustRevalidate: true
         useLastModified: false
-      staticLocations: classpath:/api/
 
 management:
   server:
@@ -97,3 +99,7 @@ otel:
         service:
           name: ${spring.application.name}
           version: ${javatemplate.version.gitTag:unknown}
+
+oidc:
+  clientId: ${env.oidc.clientId}
+  authorityEndpoint: ${env.oidc.authorityEndpoint}

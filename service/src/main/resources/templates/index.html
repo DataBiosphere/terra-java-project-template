@@ -134,7 +134,9 @@
 
     ui.initOAuth({
       clientId: [[${clientId}]],
-      scopes: "openid email profile"
+      scopes: "openid",
+      additionalQueryStringParams: {prompt: "login"},
+      usePkceWithAuthorizationCodeGrant: true
     })
 
     window.ui = ui

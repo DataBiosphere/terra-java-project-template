@@ -16,6 +16,8 @@ import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @SpringBootApplication(
     scanBasePackages = {
@@ -61,5 +63,18 @@ public class App {
   @Bean("transactionManager")
   public PlatformTransactionManager getTransactionManager() {
     return new JdbcTransactionManager(this.dataSource);
+  }
+
+  @Bean
+  public ClassLoaderTemplateResolver secondaryTemplateResolver() {
+    ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
+    secondaryTemplateResolver.setPrefix("api/");
+    secondaryTemplateResolver.setSuffix(".yml");
+    secondaryTemplateResolver.setTemplateMode(TemplateMode.TEXT);
+    secondaryTemplateResolver.setCharacterEncoding("UTF-8");
+    secondaryTemplateResolver.setOrder(1);
+    secondaryTemplateResolver.setCheckExistence(true);
+
+    return secondaryTemplateResolver;
   }
 }
