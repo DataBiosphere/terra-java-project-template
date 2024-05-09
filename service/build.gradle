@@ -6,7 +6,7 @@ plugins {
     id 'org.sonarqube'
 
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
-    id 'org.liquibase.gradle' version '2.1.0'
+    id 'org.liquibase.gradle' version '2.2.2'
 }
 
 apply from: 'generators.gradle'
@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.retry:spring-retry'
-    implementation 'org.broadinstitute.dsde.workbench:sam-client_2.13:0.1-2cd8969'
+    implementation 'org.broadinstitute.dsde.workbench:sam-client_2.13:v0.0.213'
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
