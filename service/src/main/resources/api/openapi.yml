@@ -192,9 +192,10 @@ components:
           type: string
 
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: "[[${authorityEndpoint}]]"
+      x-tokenName: id_token
 
 security:
-  - bearerAuth: [ ]
+  - oidc: [openid]
